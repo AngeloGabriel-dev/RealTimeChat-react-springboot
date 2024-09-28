@@ -1,0 +1,18 @@
+.btn{
+    transition: 400ms;
+    font-size: 12pt;
+    width: 100px;
+    height: 50px;
+    background-color: rgb(58, 58, 58);
+    color: white;
+    border: none;
+}
+
+.btn:hover{
+    transition: 400ms;
+    width: 100px;
+    height: 50px;
+    background-color: rgb(58, 58, 58);
+    color: rgb(255, 196, 0);
+    border: none;
+}

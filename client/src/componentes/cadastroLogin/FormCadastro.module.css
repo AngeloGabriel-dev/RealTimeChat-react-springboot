@@ -1,0 +1,9 @@
+.form_cadastro{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    background-color: rgb(219, 219, 255);
+    width: 700px;
+    
+}
