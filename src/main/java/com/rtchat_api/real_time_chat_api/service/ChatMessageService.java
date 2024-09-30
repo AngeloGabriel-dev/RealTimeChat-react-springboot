@@ -1,19 +1,14 @@
 package com.rtchat_api.real_time_chat_api.service;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.CollectionReference;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.WriteResult;
+import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import com.rtchat_api.real_time_chat_api.entity.ChatMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.Document;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -40,6 +35,23 @@ public class ChatMessageService {
         result.get();
 
         return docRef.getId();
+    }
+
+    public List<ChatMessage> pegarChatMessages(Long room_id) throws ExecutionException, InterruptedException{
+        CollectionReference messagesRef = db.collection("mensagens");
+        Query query = messagesRef
+                .whereEqualTo("room_id",room_id)
+                .orderBy("timestamp", Query.Direction.ASCENDING);
+
+        ApiFuture<QuerySnapshot> querySnapshotFuture = query.get();
+        List<QueryDocumentSnapshot> documents = querySnapshotFuture.get().getDocuments();
+
+        List<ChatMessage> messages = new ArrayList<>();
+        for (QueryDocumentSnapshot document: documents){
+            messages.add(document.toObject(ChatMessage.class));
+        }
+
+        return messages;
     }
 
 }
