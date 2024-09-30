@@ -72,10 +72,25 @@ function PaginaUsuarioContent({amigos, usuario, token}){
     useEffect(()=>{
         if (amigoSelecionadoId){
             setAmigoChat(amigos.filter((amigo) => amigo.id === amigoSelecionadoId)[0])
-            buscarMensagensEntreAmigos(amigoSelecionadoId, usuario.id).then(mensagens => {
-                setMensagensChat(mensagens)
+            // buscarMensagensEntreAmigos(amigoSelecionadoId, usuario.id).then(mensagens => {
+            //     setMensagensChat(mensagens)
+            //     setCarregandoMensagens(true)
+            // });
+            console.log(room.id)
+            fetch(`http://localhost:8080/api/v1/chatMessages/${room.id}`, {
+                headers:{
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type':'application/json'
+                },
+                method:'GET'
+            })
+            .then(resp => resp.json())
+            .then(data => {
+                console.log(data)
+                setMensagensChat(data)
                 setCarregandoMensagens(true)
-            });
+            })
+            .catch(err => console.log(err))
         }
         
     }, [room, amigos])

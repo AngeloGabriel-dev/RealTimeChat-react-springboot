@@ -20,6 +20,7 @@ public class ChatMessageController {
 
     @GetMapping("/{room_id}")
     public ResponseEntity<?> getChatMessages(@PathVariable Long room_id){
+
         try {
             List<ChatMessage> messages = chatMessageService.pegarChatMessages(room_id);
             return ResponseEntity.ok(messages);
