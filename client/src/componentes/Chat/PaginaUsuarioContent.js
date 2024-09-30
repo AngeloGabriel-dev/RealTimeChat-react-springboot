@@ -20,27 +20,27 @@ const firebase_config = {
 const app = initializeApp(firebase_config)
 const db = getFirestore(app)
 
-async function buscarMensagensEntreAmigos(amigoId1, amigoId2){
-    const mensagensRef = collection(db, "mensagens")
-    const q1 = query(
-        mensagensRef,
-        where("sender_id", "==", amigoId1),
-        where("receiver_id", "==", amigoId2)
-    );
-    const q2 = query(
-        mensagensRef,
-        where("sender_id", "==", amigoId2),
-        where("receiver_id", "==", amigoId1)
-    );
+// async function buscarMensagensEntreAmigos(amigoId1, amigoId2){
+//     const mensagensRef = collection(db, "mensagens")
+//     const q1 = query(
+//         mensagensRef,
+//         where("sender_id", "==", amigoId1),
+//         where("receiver_id", "==", amigoId2)
+//     );
+//     const q2 = query(
+//         mensagensRef,
+//         where("sender_id", "==", amigoId2),
+//         where("receiver_id", "==", amigoId1)
+//     );
 
-    const [snapshot1, snapshot2] = await Promise.all([
-        getDocs(q1),
-        getDocs(q2)
-    ])
+//     const [snapshot1, snapshot2] = await Promise.all([
+//         getDocs(q1),
+//         getDocs(q2)
+//     ])
 
-    const mensagens = [...snapshot1.docs, ...snapshot2.docs].map(doc => doc.data())
-    return mensagens
-}
+//     const mensagens = [...snapshot1.docs, ...snapshot2.docs].map(doc => doc.data())
+//     return mensagens
+// }
 
 function PaginaUsuarioContent({amigos, usuario, token}){
     const [amigoChat, setAmigoChat] = useState(null)
