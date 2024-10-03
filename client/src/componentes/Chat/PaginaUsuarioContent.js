@@ -2,45 +2,6 @@ import ChatBox from "./ChatBox";
 import ListaAmigos from "./ListaAmigos";
 import { useEffect, useState } from "react";
 import styles from './PaginaUsuarioContent.module.css';
-import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, query, where, getDoc } from "firebase/firestore";
-
-
-
-const firebase_config = {
-    apiKey: "Removido",
-    authDomain: "realtimechat-6bf77.firebaseapp.com",
-    projectId: "realtimechat-6bf77",
-    storageBucket: "realtimechat-6bf77.appspot.com",
-    messagingSenderId: "29576079403",
-    appId: "1:29576079403:web:aa33894926c0369754a26e",
-    measurementId: "G-2TJS8NERQQ"
-}
-
-const app = initializeApp(firebase_config)
-const db = getFirestore(app)
-
-// async function buscarMensagensEntreAmigos(amigoId1, amigoId2){
-//     const mensagensRef = collection(db, "mensagens")
-//     const q1 = query(
-//         mensagensRef,
-//         where("sender_id", "==", amigoId1),
-//         where("receiver_id", "==", amigoId2)
-//     );
-//     const q2 = query(
-//         mensagensRef,
-//         where("sender_id", "==", amigoId2),
-//         where("receiver_id", "==", amigoId1)
-//     );
-
-//     const [snapshot1, snapshot2] = await Promise.all([
-//         getDocs(q1),
-//         getDocs(q2)
-//     ])
-
-//     const mensagens = [...snapshot1.docs, ...snapshot2.docs].map(doc => doc.data())
-//     return mensagens
-// }
 
 function PaginaUsuarioContent({amigos, usuario, token}){
     const [amigoChat, setAmigoChat] = useState(null)
@@ -72,11 +33,6 @@ function PaginaUsuarioContent({amigos, usuario, token}){
     useEffect(()=>{
         if (amigoSelecionadoId){
             setAmigoChat(amigos.filter((amigo) => amigo.id === amigoSelecionadoId)[0])
-            // buscarMensagensEntreAmigos(amigoSelecionadoId, usuario.id).then(mensagens => {
-            //     setMensagensChat(mensagens)
-            //     setCarregandoMensagens(true)
-            // });
-            console.log(room.id)
             fetch(`http://localhost:8080/api/v1/chatMessages/${room.id}`, {
                 headers:{
                     'Authorization': `Bearer ${token}`,

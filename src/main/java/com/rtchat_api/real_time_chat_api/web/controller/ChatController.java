@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 
 import javax.xml.crypto.Data;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
@@ -37,7 +38,7 @@ public class ChatController {
 
     @MessageMapping("/chat.sendMessage")
     public void sendMessage(ChatMessage chatMessage){
-        chatMessage.setTimestamp(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
+        chatMessage.setTimestamp(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")).toEpochSecond(ZoneOffset.of("-03:00")));
         Long room_id = chatMessage.getRoom_id();
         System.out.println(chatMessage.getContent());
         messagingTemplate.convertAndSend("/topic/room/" + room_id, chatMessage);

@@ -3,7 +3,7 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Cadastro from './componentes/cadastroLogin/Cadastro';
 import Login from './componentes/cadastroLogin/Login';
-import PaginaUsuario from './componentes/Chat/PaginaUsuario';
+import PaginaUsuario from './componentes/chat/PaginaUsuario';
 
 function App() {
   return (
