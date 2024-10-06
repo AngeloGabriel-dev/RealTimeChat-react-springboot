@@ -4,6 +4,14 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+# Ignorar application.properties
+/src/main/resources/application.properties
+
+# Ignorar chave do firebase
+/src/main/resources/firebase/realtimechat-6bf77-firebase-adminsdk-mg5bw-8c7c9871bf.json
+
+bfg-1.14.0.jar
+
 ### STS ###
 .apt_generated
 .classpath
