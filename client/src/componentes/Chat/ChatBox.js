@@ -12,9 +12,11 @@ import Stomp from "stompjs"
 
 function ChatBox({amigo, mensagens, usuario, room}){
     const [messages, setMessages] = useState(mensagens)
+    let qtd_mensagens = mensagens.length
     const [stompClient, setStompClient] = useState(null)
 
     useEffect(()=>{
+        document.getElementById("qtd_mensagens").innerHTML = qtd_mensagens + " mensagens"
         const socket = new SockJS('http://localhost:8080/chat')
         const client = Stomp.over(socket);
         client.connect({}, (frame) => {
@@ -22,6 +24,9 @@ function ChatBox({amigo, mensagens, usuario, room}){
                 const receivedMessage = JSON.parse(message.body)
                 console.log(receivedMessage)
                 setMessages((prevMessage)=>[...prevMessage, receivedMessage])
+                qtd_mensagens++
+                document.getElementById("qtd_mensagens").innerHTML = qtd_mensagens + " mensagens"
+
             });
         });
         setStompClient(client)
