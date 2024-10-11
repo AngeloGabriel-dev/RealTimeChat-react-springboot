@@ -12,8 +12,9 @@ function ChatHistory({mensagens, usuario, amigo}){
             return data_atual.toString()
         }
         const data_atual = new Date(timestamp*1000)
-        console.log(data_atual)
-        return data_atual.toString()
+        var data_string = data_atual.getDate()+"/"+(data_atual.getMonth()+1)+"/"+data_atual.getFullYear() + " " +
+                                data_atual.getHours() +":"+ data_atual.getMinutes() +":"+ data_atual.getSeconds();
+        return data_string
         
     }
 

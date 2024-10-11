@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import ChatBox from './ChatBox'
-import ListaAmigos from './ListaAmigos'
+import ChatBox from './ChatBox.js'
+import ListaAmigos from './ListaAmigos.js'
 import styles from './PaginaUsuario.module.css'
 import { useNavigate } from 'react-router-dom'
-import PaginaUsuarioContent from './PaginaUsuarioContent'
+import PaginaUsuarioContent from './PaginaUsuarioContent.js'
 
 function PaginaUsuario(){
     const navigate = useNavigate();

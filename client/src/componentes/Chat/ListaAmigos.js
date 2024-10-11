@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import AmigoContainer from './componentesListaAmigos/AmigoContainer'
 import BarraPesquisa from './componentesListaAmigos/BarraPesquisa'
+import UserMenu from './UserMenu.js'
 import styles from './ListaAmigos.module.css'
 
-function ListaAmigos({amigos, handleId}){
+function ListaAmigos({amigos, handleId, usuario}){
     const [amigoSelecionado, setAmigoSelecionado] = useState()
 
     function usuarioSelecionado(id){
@@ -13,6 +14,7 @@ function ListaAmigos({amigos, handleId}){
 
     return(
         <div className={styles.lista}>
+            <UserMenu usuario={usuario}/>
             <BarraPesquisa/>
             {
                 amigos.map((amigo) => 

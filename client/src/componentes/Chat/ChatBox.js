@@ -40,6 +40,7 @@ function ChatBox({amigo, mensagens, usuario, room}){
             }
             console.log(chatMessage)
             stompClient.send('/app/chat.sendMessage', {}, JSON.stringify(chatMessage))
+
             sendMessage('')
         }
     }

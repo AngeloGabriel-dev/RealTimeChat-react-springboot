@@ -25,11 +25,6 @@ public class ChatController {
     @Autowired
     private ChatMessageService chatMessageService;
 
-    /*public ResponseEntity<MessageDto> send(MessageDto dto) throws Exception{
-        Message message = MessageMapper.toMessage(dto);
-        return ResponseEntity.ok(dto);
-    }*/
-
     private final SimpMessagingTemplate messagingTemplate;
 
     public ChatController(SimpMessagingTemplate messagingTemplate) {

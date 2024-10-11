@@ -20,9 +20,10 @@ function ChatMessage({conteudo, data_mensagem, nome, eh_minha}){
                 :
                 <div>
                     <div className={styles.other_message_data}>
+                        <FontAwesomeIcon icon={faCircle} className={styles.other_me}/>  
                         <span className={styles.other_message_data_time}>{data_mensagem}</span>
                         <span>{nome}</span>
-                        <FontAwesomeIcon icon={faCircle} className={styles.other_me}/>   
+                         
                     </div>
                     <div className={styles.other_message}>
                         <p>{conteudo}</p>

@@ -53,7 +53,7 @@ function PaginaUsuarioContent({amigos, usuario, token}){
 
     return(
         <div className={styles.content}>
-            <ListaAmigos amigos={amigos} handleId={pegarIdAmigo}/>
+            <ListaAmigos amigos={amigos} handleId={pegarIdAmigo} usuario={usuario}/>
             {carregandoMensagens ? <ChatBox amigo={amigoChat} mensagens={mensagensChat} usuario={usuario} room={room}/>:null}
         </div>
     )
