@@ -18,7 +18,7 @@ function Cadastro(){
         })
         .then(resp => resp.json())
         .then(data => {
-            navigate('/login', {state:{message:"Conta criada com sucesso!"}})
+            navigate('/', {state:{message:"Conta criada com sucesso!"}})
         })
         .catch(err => console.log(err))
     }

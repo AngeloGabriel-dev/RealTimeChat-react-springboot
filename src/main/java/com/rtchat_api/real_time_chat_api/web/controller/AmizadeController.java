@@ -42,15 +42,13 @@ public class AmizadeController {
         room.setUsers(users);
         roomService.criarRoomEntreAmigos(room);
         amizadeService.solicitarAmizade(nova_amizade);
-        nova_amizade.setUsuario(amigo);
-        nova_amizade.setAmigo(usuario);
-        amizadeService.solicitarAmizade(nova_amizade);
     }
 
     @GetMapping
     public ResponseEntity<List<UsuarioResponseDto>> getFriendsById(@AuthenticationPrincipal
                                                         JwtUserDetails userDetails){
         List<Usuario> amigos = amizadeService.buscarAmigosPorId(userDetails.getId());
+        System.out.println(amigos);
         return ResponseEntity.ok(UsuarioMapper.toListDto(amigos));
     }
 

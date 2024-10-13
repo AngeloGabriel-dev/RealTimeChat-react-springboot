@@ -20,14 +20,19 @@ public class AmizadeService {
 
     @Transactional(readOnly = true)
     public List<Usuario> buscarAmigosPorId(Long id){
-
+        System.out.println(id);
         List<Amizade> amizades =  amizadeRepository.findAllByUsuarioId(id);
+        System.out.println(amizades);
         return amizades.stream().map(amizade -> amizade.getAmigo()).collect(Collectors.toList());
     }
 
     @Transactional
-    public Amizade solicitarAmizade(Amizade amizade){
-        return amizadeRepository.save(amizade);
+    public void solicitarAmizade(Amizade amizade){
+        Amizade amizade1 = new Amizade();
+        amizade1.setUsuario(amizade.getAmigo());
+        amizade1.setAmigo(amizade.getUsuario());
+        amizadeRepository.save(amizade);
+        amizadeRepository.save(amizade1);
     }
 
     @Transactional
