@@ -1,0 +1,86 @@
+.message{
+  color: white;
+  padding: 18px 20px;
+  line-height: 26px;
+  font-size: 16px;
+  border-radius: 7px;
+  margin-bottom: 30px;
+  width: 90%;
+  position: relative;
+  float: left;
+  background: green;
+}
+
+.message:after {
+    bottom: 100%;
+    left: 7%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-bottom-color: green;
+    border-width: 10px;
+    margin-left: -10px;
+    
+}
+
+  
+.other_message {
+  color: white;
+  padding: 18px 20px;
+  line-height: 26px;
+  font-size: 16px;
+  border-radius: 7px;
+  margin-bottom: 30px;
+  width: 90%;
+  position: relative;
+  background: blue;
+  float: right;
+    
+}
+.other_message:after{
+    bottom: 100%;
+    left: 93%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-bottom-color: blue;
+    border-width: 10px;
+    margin-left: -10px;
+}
+
+.message_data {
+    margin-bottom: 15px;
+    font-size: 12px;
+}
+  
+.message_data_time {
+    color: #808080;
+    padding-left: 6px;
+}
+
+.me{
+    color: green;
+    padding-right: 5px;
+}
+
+.other_message_data {
+    margin-bottom: 15px;
+    font-size: 12px;
+    margin-left: 76.5%;
+}
+  
+.other_message_data_time {
+    color: #808080;
+    padding-right: 6px;
+}
+
+.other_me{
+    color: blue;
+    padding-left: 5px;
+}

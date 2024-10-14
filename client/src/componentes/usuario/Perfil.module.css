@@ -1,0 +1,47 @@
+.perfil {
+    margin-top: 30px;
+    
+}
+.perfil button{
+    transition: 400ms;
+    float: right;
+    border: none;
+    width: 30px;
+    height: 30px;
+    font-size: 15pt;
+    border-radius: 100%;
+}
+
+.perfil button:hover{
+    transition: 400ms;
+    color: white;
+    float: right;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    background-color: rgb(171, 171, 171);
+    
+}
+
+
+.perfil_components {
+    display: flex;
+    flex-direction: column;
+    margin: 30px;
+    padding: 80px;
+    align-items: center;
+}
+
+.name {
+    font-size: 30pt;
+    padding-bottom: 40px;
+    text-align: center;
+}
+
+.profile_img {
+    width: 180px;
+    height: 180px;
+    border-radius: 100%;
+}
+

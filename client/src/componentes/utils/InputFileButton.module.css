@@ -1,0 +1,24 @@
+.upload_file_container {
+    transition: 400ms;
+    display: flex;
+    justify-content: center;
+    border-radius: 100%;
+    background-color: rgb(42, 211, 107);
+    padding: 15px;   
+    margin-top: 40px;
+}
+
+.upload_file_container:hover {
+    transition: 400ms;
+    display: flex;
+    justify-content: center;
+    border-radius: 100%;
+    background-color: rgb(33, 163, 83);
+    padding: 15px;   
+    margin-top: 40px;
+}
+
+.button_icon{
+    width: 30px;
+    height: 30px;
+}
