@@ -24,8 +24,9 @@ function ListaAmigos({amigos, handleId, usuario, handleToggleMenu}){
                 <AmigoContainer 
                     amigo={amigo} 
                     selecionado={amigoSelecionado === amigo.id}
-                    handleOnClick={usuarioSelecionado}/>
-            )}
+                 handleOnClick={usuarioSelecionado}
+                />)
+            }
         </div>
     )
 }

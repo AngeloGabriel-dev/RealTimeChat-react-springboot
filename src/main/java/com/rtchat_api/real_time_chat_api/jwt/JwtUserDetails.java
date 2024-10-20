@@ -9,6 +9,7 @@ public class JwtUserDetails extends User {
     public JwtUserDetails(Usuario usuario){
         super(usuario.getUsername(), usuario.getPassword(), AuthorityUtils.createAuthorityList(usuario.getRole().name()));
         this.usuario = usuario;
+        System.out.println(usuario.getId());
     }
     public Long getId(){
         return this.usuario.getId();

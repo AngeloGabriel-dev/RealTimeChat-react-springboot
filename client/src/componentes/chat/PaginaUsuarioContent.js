@@ -61,7 +61,7 @@ function PaginaUsuarioContent({amigos, usuario, token}){
     return(
         <div className={styles.content}>
             {showMenu ? 
-                <Perfil usuario={usuario} onToggleMenu={toggleMenu}/>
+                <Perfil usuario={usuario} onToggleMenu={toggleMenu} token={token}/>
                 :
                 <ListaAmigos amigos={amigos} handleId={pegarIdAmigo} usuario={usuario} handleToggleMenu={toggleMenu}/>
             }

@@ -4,11 +4,12 @@ import styles from "./UserMenu.module.css"
 function UserMenu({usuario, onToggleMenu}){
     return (
         <div className={styles.container}>
-            <img 
-                src={img} 
-                className={styles.component}
-                onClick={onToggleMenu}
-            />
+                <img 
+                    src={localStorage.getItem("img_profile_url")} 
+                    className={styles.component}
+                    onClick={onToggleMenu}
+                />
+            
             <span>{usuario.nome}</span>
         </div>
     )
