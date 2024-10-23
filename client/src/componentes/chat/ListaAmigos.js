@@ -5,7 +5,7 @@ import UserMenu from './UserMenu.js'
 import styles from './ListaAmigos.module.css'
 import Perfil from '../usuario/Perfil.js'
 
-function ListaAmigos({amigos, handleId, usuario, handleToggleMenu}){
+function ListaAmigos({amigos, handleId, usuario, handleToggleMenu, usersPictures}){
     const [amigoSelecionado, setAmigoSelecionado] = useState()
 
     function usuarioSelecionado(id){
@@ -24,7 +24,8 @@ function ListaAmigos({amigos, handleId, usuario, handleToggleMenu}){
                 <AmigoContainer 
                     amigo={amigo} 
                     selecionado={amigoSelecionado === amigo.id}
-                 handleOnClick={usuarioSelecionado}
+                    handleOnClick={usuarioSelecionado}
+                    userPicture={usersPictures[amigo.id]}
                 />)
             }
         </div>

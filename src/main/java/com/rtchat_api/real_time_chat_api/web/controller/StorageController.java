@@ -1,6 +1,9 @@
 package com.rtchat_api.real_time_chat_api.web.controller;
 
+import com.rtchat_api.real_time_chat_api.entity.Amizade;
+import com.rtchat_api.real_time_chat_api.entity.Usuario;
 import com.rtchat_api.real_time_chat_api.jwt.JwtUserDetails;
+import com.rtchat_api.real_time_chat_api.service.AmizadeService;
 import com.rtchat_api.real_time_chat_api.service.FirebaseStorageService;
 import com.rtchat_api.real_time_chat_api.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/storage")
@@ -23,6 +28,7 @@ public class StorageController {
     @Autowired
     private final FirebaseStorageService storageService;
     private final UsuarioService usuarioService;
+    private final AmizadeService amizadeService;
 
     @PostMapping("/updateProfilePicture")
     public ResponseEntity<?> uploadProfilePicture(@RequestParam("file") MultipartFile file,
@@ -43,16 +49,23 @@ public class StorageController {
     public ResponseEntity<?> downloadProfilePicture(@AuthenticationPrincipal JwtUserDetails userDetails){
         try{
             String path = "users/user_"+userDetails.getUsername()+"/profile_pic";
-            byte[] image = storageService.download(path);
+            //byte[] image = storageService.download(path);
+            String imageUrl = storageService.download(path);
             return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + path + "\"")
-                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                    .body(image);
+                    .body(imageUrl);
         }
         catch (IOException e){
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao baixar image");
         }
+    }
+
+    @GetMapping("/downloadFriendsProfilePicture")
+    public ResponseEntity<HashMap<Long, String>> downloadFriendsProfilePicture(@AuthenticationPrincipal JwtUserDetails userDetails) throws IOException {
+        List<Usuario> amigos = amizadeService.buscarAmigosPorId(userDetails.getId());
+        HashMap<Long, String> fotos_de_perfil = storageService.baixarAmigosFotoPerfil(amigos);
+        return ResponseEntity.ok()
+                .body(fotos_de_perfil);
     }
 }
 

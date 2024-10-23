@@ -1,7 +1,7 @@
 import styles from './AmigoContainer.module.css'
 import img from '../../../imagens/userImage.jpg'
 
-function AmigoContainer({amigo, handleOnClick, selecionado}){
+function AmigoContainer({amigo, handleOnClick, selecionado, userPicture}){
     const retornaId = (e)=>{
         e.preventDefault()
         handleOnClick(amigo.id)
@@ -10,7 +10,7 @@ function AmigoContainer({amigo, handleOnClick, selecionado}){
     return(
         <div>
             <div className={selecionado? styles.container_selecionado:styles.container} onClick={retornaId}> 
-                <img src={img} className={styles.component}/>
+                <img src={userPicture} className={styles.component}/>
                 <span>{amigo.nome}</span>
             </div>
         </div>

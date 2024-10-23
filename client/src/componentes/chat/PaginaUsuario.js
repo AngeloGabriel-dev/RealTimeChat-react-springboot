@@ -5,24 +5,32 @@ import styles from './PaginaUsuario.module.css'
 import { useNavigate } from 'react-router-dom'
 import PaginaUsuarioContent from './PaginaUsuarioContent.js'
 
-async function downloadProfilePicture(token) {
-        try {
-            const response = await fetch("http://localhost:8080/api/v1/storage/downloadProfilePicture", {
-            headers: {
-                "Authorization": `Bearer ${token}`,
-            },
-            method: "GET"
-        })
-    
-        const blob = await response.blob()
-        const url = window.URL.createObjectURL(blob)
-        localStorage.setItem("img_profile_url", url)
-        //return url
-        }
-        catch (error){
-            console.log("ERROR fetching the image: "+error)
-        }
-    }
+function downloadProfilePicture(token, id) {
+    fetch("http://localhost:8080/api/v1/storage/downloadProfilePicture", {
+    headers: {
+        "Authorization": `Bearer ${token}`,
+    },
+    method: "GET"
+    })
+    .then(resp => resp.text())
+    .then(data => localStorage.setItem("img_profile_url"+id, data))
+    .catch(error => console.log(error))
+    //localStorage.setItem("img_profile_url"+id, response)
+    //return url
+}
+
+function downloadFriendsProfilePictures(token){
+    const pictures = fetch("http://localhost:8080/api/v1/storage/downloadFriendsProfilePicture", {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        },
+        method: "GET"
+    })
+    .then(resp => resp.json())
+    .catch(error => console.log(error))
+
+    return pictures
+}
 
 
 function PaginaUsuario(){
@@ -30,6 +38,7 @@ function PaginaUsuario(){
     const [usuario, setUsuario] = useState({})
     const [carregou, setCarregou] = useState(false)
     const token = localStorage.getItem('token')
+    const [usersPictures, setUsersPictures] = useState({})
     
 
     useEffect(()=>{
@@ -44,7 +53,9 @@ function PaginaUsuario(){
             .then(resp => resp.json())
             .then(data => {
                 setUsuario(data);
-                downloadProfilePicture(token)
+                downloadProfilePicture(token, data.id)
+                downloadFriendsProfilePictures(token).then(data => setUsersPictures(data))
+                console.log(usersPictures)
             })
             .catch(err => {
                 console.log('Seu token expirou!')
@@ -64,17 +75,28 @@ function PaginaUsuario(){
             })
             .then(resp => resp.json())
             .then(data => {
+                console.log(usersPictures)
                 setUsuario({...usuario, ['amigos']:data})
                 setCarregou(true)
             })
             .catch(err => console.log(err))
         }
         
-    }, [usuario.id])
+    }, [usersPictures])
 
     return(
         <div>
-            {carregou ? <PaginaUsuarioContent amigos={usuario.amigos} usuario={usuario} token={token}/> : <p>Carregando...</p>}
+            {
+            carregou ? 
+            <PaginaUsuarioContent 
+                amigos={usuario.amigos} 
+                usuario={usuario} 
+                token={token} 
+                usersPictures={usersPictures}
+            /> 
+            : 
+            <p>Carregando...</p>
+            }
         </div>
     )
 }

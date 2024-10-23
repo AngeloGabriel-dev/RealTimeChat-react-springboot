@@ -5,7 +5,7 @@ function UserMenu({usuario, onToggleMenu}){
     return (
         <div className={styles.container}>
                 <img 
-                    src={localStorage.getItem("img_profile_url")} 
+                    src={localStorage.getItem("img_profile_url"+usuario.id)} 
                     className={styles.component}
                     onClick={onToggleMenu}
                 />

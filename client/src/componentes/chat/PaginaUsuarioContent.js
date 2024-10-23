@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import styles from './PaginaUsuarioContent.module.css';
 import Perfil from "../usuario/Perfil";
 
-function PaginaUsuarioContent({amigos, usuario, token}){
+function PaginaUsuarioContent({amigos, usuario, token, usersPictures}){
     const [amigoChat, setAmigoChat] = useState(null)
     const [room, setRoom] = useState({})
     const [mensagensChat, setMensagensChat] = useState([])
@@ -63,7 +63,7 @@ function PaginaUsuarioContent({amigos, usuario, token}){
             {showMenu ? 
                 <Perfil usuario={usuario} onToggleMenu={toggleMenu} token={token}/>
                 :
-                <ListaAmigos amigos={amigos} handleId={pegarIdAmigo} usuario={usuario} handleToggleMenu={toggleMenu}/>
+                <ListaAmigos amigos={amigos} handleId={pegarIdAmigo} usuario={usuario} handleToggleMenu={toggleMenu} usersPictures={usersPictures}/>
             }
             {carregandoMensagens ? <ChatBox amigo={amigoChat} mensagens={mensagensChat} usuario={usuario} room={room}/>:null}
         </div>

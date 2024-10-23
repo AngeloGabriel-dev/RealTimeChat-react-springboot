@@ -39,7 +39,7 @@ function Perfil({usuario, onToggleMenu, token}){
             </button>
             <div className={styles.perfil_components}>
                 <span className={styles.name}>{usuario.nome}</span>
-                <img id="profile_image" className={styles.profile_img} src={localStorage.getItem("img_profile_url")}/>
+                <img id="profile_image" className={styles.profile_img} src={localStorage.getItem("img_profile_url"+usuario.id)}/>
                 
                 
                 <InputFileButton typeFile={"image"} icon={faCamera} handleFile={onHandleFile}/>
