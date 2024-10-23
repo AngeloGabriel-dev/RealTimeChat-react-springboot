@@ -10,7 +10,7 @@ import Stomp from "stompjs"
 
 
 
-function ChatBox({amigo, mensagens, usuario, room}){
+function ChatBox({amigo, mensagens, usuario, room, userPicture}){
     const [messages, setMessages] = useState(mensagens)
     let qtd_mensagens = mensagens.length
     const [stompClient, setStompClient] = useState(null)
@@ -52,7 +52,7 @@ function ChatBox({amigo, mensagens, usuario, room}){
 
     return(
     <div className={styles.chat}>
-        <ChatHeader nome={amigo.nome} qtd_mensagens={mensagens.length}/>
+        <ChatHeader nome={amigo.nome} qtd_mensagens={mensagens.length} userPicture={userPicture}/>
         <ChatHistory mensagens={messages} usuario={usuario} amigo={amigo}/>
         <MessageSender onSendMessage={sendMessage}/>
     </div>

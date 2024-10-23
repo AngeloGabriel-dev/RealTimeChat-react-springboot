@@ -65,7 +65,7 @@ function PaginaUsuarioContent({amigos, usuario, token, usersPictures}){
                 :
                 <ListaAmigos amigos={amigos} handleId={pegarIdAmigo} usuario={usuario} handleToggleMenu={toggleMenu} usersPictures={usersPictures}/>
             }
-            {carregandoMensagens ? <ChatBox amigo={amigoChat} mensagens={mensagensChat} usuario={usuario} room={room}/>:null}
+            {carregandoMensagens ? <ChatBox amigo={amigoChat} mensagens={mensagensChat} usuario={usuario} room={room} userPicture={usersPictures[amigoChat.id]}/>:null}
         </div>
     )
 }
