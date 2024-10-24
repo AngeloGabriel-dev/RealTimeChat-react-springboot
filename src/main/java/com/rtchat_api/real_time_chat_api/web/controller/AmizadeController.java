@@ -7,7 +7,7 @@ import com.rtchat_api.real_time_chat_api.jwt.JwtUserDetails;
 import com.rtchat_api.real_time_chat_api.service.AmizadeService;
 import com.rtchat_api.real_time_chat_api.service.RoomService;
 import com.rtchat_api.real_time_chat_api.service.UsuarioService;
-import com.rtchat_api.real_time_chat_api.web.dto.UsuarioResponseDto;
+import com.rtchat_api.real_time_chat_api.web.dto.userDto.UsuarioResponseDto;
 import com.rtchat_api.real_time_chat_api.web.dto.mapper.UsuarioMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

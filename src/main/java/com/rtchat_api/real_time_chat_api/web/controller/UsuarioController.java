@@ -3,8 +3,8 @@ package com.rtchat_api.real_time_chat_api.web.controller;
 import com.rtchat_api.real_time_chat_api.entity.Usuario;
 import com.rtchat_api.real_time_chat_api.jwt.JwtUserDetails;
 import com.rtchat_api.real_time_chat_api.service.UsuarioService;
-import com.rtchat_api.real_time_chat_api.web.dto.UsuarioCreateDto;
-import com.rtchat_api.real_time_chat_api.web.dto.UsuarioResponseDto;
+import com.rtchat_api.real_time_chat_api.web.dto.userDto.UsuarioCreateDto;
+import com.rtchat_api.real_time_chat_api.web.dto.userDto.UsuarioResponseDto;
 import com.rtchat_api.real_time_chat_api.web.dto.mapper.UsuarioMapper;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import static com.rtchat_api.real_time_chat_api.web.dto.mapper.UsuarioMapper.toDto;

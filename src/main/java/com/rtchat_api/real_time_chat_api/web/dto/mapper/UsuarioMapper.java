@@ -1,8 +1,8 @@
 package com.rtchat_api.real_time_chat_api.web.dto.mapper;
 
 import com.rtchat_api.real_time_chat_api.entity.Usuario;
-import com.rtchat_api.real_time_chat_api.web.dto.UsuarioCreateDto;
-import com.rtchat_api.real_time_chat_api.web.dto.UsuarioResponseDto;
+import com.rtchat_api.real_time_chat_api.web.dto.userDto.UsuarioCreateDto;
+import com.rtchat_api.real_time_chat_api.web.dto.userDto.UsuarioResponseDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 

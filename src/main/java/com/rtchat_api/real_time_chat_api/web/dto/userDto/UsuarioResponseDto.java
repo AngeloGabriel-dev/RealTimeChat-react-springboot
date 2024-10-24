@@ -1,4 +1,4 @@
-package com.rtchat_api.real_time_chat_api.web.dto;
+package com.rtchat_api.real_time_chat_api.web.dto.userDto;
 
 import lombok.*;
 

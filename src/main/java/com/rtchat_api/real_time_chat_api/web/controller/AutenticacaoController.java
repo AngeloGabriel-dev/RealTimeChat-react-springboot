@@ -2,7 +2,7 @@ package com.rtchat_api.real_time_chat_api.web.controller;
 
 import com.rtchat_api.real_time_chat_api.jwt.JwtToken;
 import com.rtchat_api.real_time_chat_api.jwt.JwtUserDetailsService;
-import com.rtchat_api.real_time_chat_api.web.dto.UsuarioLoginDto;
+import com.rtchat_api.real_time_chat_api.web.dto.userDto.UsuarioLoginDto;
 import com.rtchat_api.real_time_chat_api.web.exception.ErrorMessage;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;

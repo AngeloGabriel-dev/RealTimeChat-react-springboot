@@ -1,11 +1,17 @@
 package com.rtchat_api.real_time_chat_api.service;
 
 import com.rtchat_api.real_time_chat_api.entity.Room;
+import com.rtchat_api.real_time_chat_api.entity.Usuario;
 import com.rtchat_api.real_time_chat_api.repository.RoomRepository;
+import com.rtchat_api.real_time_chat_api.web.dto.roomDto.RoomCreateDto;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -26,5 +32,14 @@ public class RoomService {
                 () -> new EntityNotFoundException(String.format("Sala com usuário id = %s e id = %s não encontrada.", id1, id2))
         );
 
+    }
+
+    public Room adicionarUsersNaRoom(Long roomId, Set<Usuario> users) {
+        Room room = roomRepository.findById(roomId).orElseThrow(
+                () -> new EntityNotFoundException(String.format("Sala com id = %s não encontrada", roomId))
+        );
+
+        room.getUsers().addAll(users);
+        return  roomRepository.save(room);
     }
 }
