@@ -25,3 +25,4 @@ nome	varchar(30) <br>
 users usuarios[] <br>
 
 ### messages
+room_id number <Br>
