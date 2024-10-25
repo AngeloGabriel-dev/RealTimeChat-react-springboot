@@ -5,7 +5,7 @@ import UserMenu from './UserMenu.js'
 import styles from './ListaAmigos.module.css'
 import Perfil from '../usuario/Perfil.js'
 
-function ListaAmigos({amigos, handleId, usuario, handleToggleMenu, usersPictures}){
+function ListaAmigos({amigos, handleId, usuario, handleToggleMenu, handleToggleCreateRoomMenu, usersPictures}){
     const [amigoSelecionado, setAmigoSelecionado] = useState()
 
     function usuarioSelecionado(id){
@@ -17,7 +17,11 @@ function ListaAmigos({amigos, handleId, usuario, handleToggleMenu, usersPictures
 
     return(
         <div className={styles.lista}>
-            <UserMenu usuario={usuario} onToggleMenu={handleToggleMenu}/>
+            <UserMenu 
+                usuario={usuario} 
+                onToggleMenu={handleToggleMenu} 
+                onToggleCreateRoomMenu={handleToggleCreateRoomMenu}
+            />
             <BarraPesquisa/>
             {
                 amigos.map((amigo) => 

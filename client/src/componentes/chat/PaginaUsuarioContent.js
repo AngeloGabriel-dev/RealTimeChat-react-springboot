@@ -3,6 +3,7 @@ import ListaAmigos from "./ListaAmigos";
 import { useEffect, useState } from "react";
 import styles from './PaginaUsuarioContent.module.css';
 import Perfil from "../usuario/Perfil";
+import CreateRoomMenu from "../room/CreateRoomMenu";
 
 function PaginaUsuarioContent({amigos, usuario, token, usersPictures}){
     const [amigoChat, setAmigoChat] = useState(null)
@@ -11,6 +12,7 @@ function PaginaUsuarioContent({amigos, usuario, token, usersPictures}){
     const [amigoSelecionadoId, setAmigoSelecionadoId] = useState(null)
     const [carregandoMensagens, setCarregandoMensagens] = useState(false)
     const [showMenu, setShowMenu] = useState(false);
+    const [showCreateRoom, setShowCreateRoom] = useState(false);
 
     function pegarIdAmigo(id){
         setAmigoSelecionadoId(id)
@@ -18,8 +20,11 @@ function PaginaUsuarioContent({amigos, usuario, token, usersPictures}){
     }
 
     const toggleMenu = () => {
-        setShowMenu(!showMenu);
-        
+        setShowMenu(!showMenu);  
+    }
+
+    const toggleCreateRoom = () => {
+        setShowCreateRoom(!showCreateRoom)
     }
 
     useEffect(()=>{
@@ -61,11 +66,35 @@ function PaginaUsuarioContent({amigos, usuario, token, usersPictures}){
     return(
         <div className={styles.content}>
             {showMenu ? 
-                <Perfil usuario={usuario} onToggleMenu={toggleMenu} token={token}/>
+                <Perfil 
+                    usuario={usuario} 
+                    handleToggleMenu={toggleMenu} 
+                    token={token}
+                />
                 :
-                <ListaAmigos amigos={amigos} handleId={pegarIdAmigo} usuario={usuario} handleToggleMenu={toggleMenu} usersPictures={usersPictures}/>
+                showCreateRoom ?
+                <CreateRoomMenu amigos={amigos} usersPictures={usersPictures}/>
+                :
+                <ListaAmigos 
+                    amigos={amigos} 
+                    handleId={pegarIdAmigo} 
+                    usuario={usuario} 
+                    handleToggleMenu={toggleMenu} 
+                    handleToggleCreateRoomMenu={toggleCreateRoom} 
+                    usersPictures={usersPictures}
+                />
             }
-            {carregandoMensagens ? <ChatBox amigo={amigoChat} mensagens={mensagensChat} usuario={usuario} room={room} userPicture={usersPictures[amigoChat.id]}/>:null}
+            {carregandoMensagens ? 
+                <ChatBox 
+                    amigo={amigoChat} 
+                    mensagens={mensagensChat} 
+                    usuario={usuario} 
+                    room={room} 
+                    userPicture={usersPictures[amigoChat.id]}
+                />
+                :
+                null
+            }
         </div>
     )
 }

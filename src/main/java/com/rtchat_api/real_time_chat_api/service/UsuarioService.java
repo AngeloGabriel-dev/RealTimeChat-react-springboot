@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -46,8 +47,10 @@ public class UsuarioService {
 
     @Transactional(readOnly = true)
     public Set<Usuario> buscarListaUsuariosPorId(List<Long> usersId) {
-        Set<Usuario> users = new HashSet<>();
-        usuarioRepository.findAllById(usersId).stream().map((user) -> users.add(user));
-        return users;
+        return new HashSet<>(usuarioRepository.findAllById(usersId));
+    }
+
+    public Usuario.Role buscarRolePorUsername(String username) {
+        return usuarioRepository.findRoleByUsername(username);
     }
 }

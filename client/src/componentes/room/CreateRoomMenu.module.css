@@ -1,0 +1,15 @@
+.create_room_form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+.page_title{
+    font-size: 20pt;
+    margin: 20px;
+    margin-bottom: 50px;
+}
+
+.submit_button{
+    margin-top: 500px;
+}

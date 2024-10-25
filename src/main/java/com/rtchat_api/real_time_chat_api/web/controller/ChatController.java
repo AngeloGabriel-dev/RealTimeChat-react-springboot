@@ -35,7 +35,6 @@ public class ChatController {
     public void sendMessage(ChatMessage chatMessage){
         chatMessage.setTimestamp(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")).toEpochSecond(ZoneOffset.of("-03:00")));
         Long room_id = chatMessage.getRoom_id();
-        System.out.println(chatMessage.getContent());
         messagingTemplate.convertAndSend("/topic/room/" + room_id, chatMessage);
         try{
             String message_id = chatMessageService.salvarChatMessage(chatMessage);
