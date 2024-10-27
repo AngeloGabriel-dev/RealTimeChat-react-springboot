@@ -6,7 +6,7 @@ import Perfil from "../usuario/Perfil";
 import CreateRoomMenu from "../room/CreateRoomMenu";
 import Modal from 'react-modal';
 
-function PaginaUsuarioContent({amigos, usuario, token, usersPictures}){
+function PaginaUsuarioContent({amigos, usuario, token, usersPictures, rooms}){
     const [amigoChat, setAmigoChat] = useState(null)
     const [room, setRoom] = useState({})
     const [mensagensChat, setMensagensChat] = useState([])
@@ -89,6 +89,7 @@ function PaginaUsuarioContent({amigos, usuario, token, usersPictures}){
                     handleToggleMenu={toggleMenu} 
                     handleToggleCreateRoomMenu={toggleCreateRoom} 
                     usersPictures={usersPictures}
+                    rooms={rooms}
                 />
             }
             {carregandoMensagens ? 

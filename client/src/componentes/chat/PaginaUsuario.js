@@ -36,6 +36,7 @@ function downloadFriendsProfilePictures(token){
 function PaginaUsuario(){
     const navigate = useNavigate();
     const [usuario, setUsuario] = useState({})
+    const [rooms, setRooms] = useState([])
     const [carregou, setCarregou] = useState(false)
     const token = localStorage.getItem('token')
     const [usersPictures, setUsersPictures] = useState({})
@@ -55,7 +56,6 @@ function PaginaUsuario(){
                 setUsuario(data);
                 downloadProfilePicture(token, data.id)
                 downloadFriendsProfilePictures(token).then(data => setUsersPictures(data))
-                console.log(usersPictures)
             })
             .catch(err => {
                 console.log('Seu token expirou!')
@@ -75,14 +75,30 @@ function PaginaUsuario(){
             })
             .then(resp => resp.json())
             .then(data => {
-                console.log(usersPictures)
                 setUsuario({...usuario, ['amigos']:data})
+                
                 setCarregou(true)
             })
             .catch(err => console.log(err))
         }
-        
     }, [usersPictures])
+
+    useEffect(()=>{
+        if(usuario.id !== null){
+            fetch("http://localhost:8080/api/v1/rooms", {
+                headers:{
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type':'application/json'
+                },
+                method: "GET"
+            })
+            .then(resp => resp.json())
+            .then(data => {
+                setRooms(data)
+            })
+            .catch(err => console.log(err))
+        }
+    }, [usuario.amigos])
 
     return(
         <div>
@@ -93,6 +109,7 @@ function PaginaUsuario(){
                 usuario={usuario} 
                 token={token} 
                 usersPictures={usersPictures}
+                rooms={rooms}
             /> 
             : 
             <p>Carregando...</p>

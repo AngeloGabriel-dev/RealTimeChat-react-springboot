@@ -5,7 +5,7 @@ import UserMenu from './UserMenu.js'
 import styles from './ListaAmigos.module.css'
 import Perfil from '../usuario/Perfil.js'
 
-function ListaAmigos({amigos, handleId, usuario, handleToggleMenu, handleToggleCreateRoomMenu, usersPictures}){
+function ListaAmigos({amigos, handleId, usuario, handleToggleMenu, handleToggleCreateRoomMenu, usersPictures, rooms}){
     const [amigoSelecionado, setAmigoSelecionado] = useState()
 
     function usuarioSelecionado(id){
@@ -27,9 +27,17 @@ function ListaAmigos({amigos, handleId, usuario, handleToggleMenu, handleToggleC
                 amigos.map((amigo) => 
                 <AmigoContainer 
                     amigo={amigo} 
-                    selecionado={amigoSelecionado === amigo.id}
                     handleOnClick={usuarioSelecionado}
+                    selecionado={amigoSelecionado === amigo.id}
                     userPicture={usersPictures[amigo.id]}
+                />)
+            }
+            {
+                rooms.map((room)=>
+                <AmigoContainer
+                    amigo={room}
+                    handleOnClick={usuarioSelecionado}
+                    selecionado={amigoSelecionado === room.id}
                 />)
             }
         </div>

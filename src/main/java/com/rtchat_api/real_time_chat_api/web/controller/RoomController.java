@@ -6,7 +6,9 @@ import com.rtchat_api.real_time_chat_api.jwt.JwtUserDetails;
 import com.rtchat_api.real_time_chat_api.service.AmizadeService;
 import com.rtchat_api.real_time_chat_api.service.RoomService;
 import com.rtchat_api.real_time_chat_api.service.UsuarioService;
+import com.rtchat_api.real_time_chat_api.web.dto.mapper.RoomMapper;
 import com.rtchat_api.real_time_chat_api.web.dto.roomDto.RoomCreateDto;
+import com.rtchat_api.real_time_chat_api.web.dto.roomDto.RoomResponseDto;
 import com.rtchat_api.real_time_chat_api.web.dto.userDto.UsuarioCreateDto;
 import jakarta.persistence.PostUpdate;
 import jakarta.validation.Valid;
@@ -54,5 +56,9 @@ public class RoomController {
         return ResponseEntity.ok(room);
     }
 
-    public ResponseEntity<List<>>
+    @GetMapping
+    public ResponseEntity<List<RoomResponseDto>> getAllRoomsFromUser(@AuthenticationPrincipal JwtUserDetails userDetails){
+        Usuario user = usuarioService.buscarPorId(userDetails.getId());
+        return ResponseEntity.ok(RoomMapper.toListResponseDto(roomService.buscarTodasRoomsUsuario(user)));
+    }
 }
