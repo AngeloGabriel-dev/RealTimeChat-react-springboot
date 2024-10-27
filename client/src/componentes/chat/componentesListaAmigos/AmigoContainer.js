@@ -4,12 +4,14 @@ import img from '../../../imagens/userImage.jpg'
 function AmigoContainer({amigo, handleOnClick, selecionado, userPicture}){
     const retornaId = (e)=>{
         e.preventDefault()
-        handleOnClick(amigo.id)
+        handleOnClick(amigo.id)    
     }
     
     return(
         <div>
-            <div className={selecionado? styles.container_selecionado:styles.container} onClick={retornaId}> 
+            <div 
+                className={selecionado? styles.container_selecionado:styles.container} 
+                onClick={retornaId}> 
                 <img src={userPicture} className={styles.component}/>
                 <span>{amigo.nome}</span>
             </div>

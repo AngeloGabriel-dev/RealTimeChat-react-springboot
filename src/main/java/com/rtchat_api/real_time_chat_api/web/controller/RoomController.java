@@ -53,4 +53,6 @@ public class RoomController {
         Room room = roomService.buscarRoomDeAmigos(userDetails.getId(), amigo_id);
         return ResponseEntity.ok(room);
     }
+
+    public ResponseEntity<List<>>
 }

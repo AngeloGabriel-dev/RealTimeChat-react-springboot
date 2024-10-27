@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import styles from './PaginaUsuarioContent.module.css';
 import Perfil from "../usuario/Perfil";
 import CreateRoomMenu from "../room/CreateRoomMenu";
+import Modal from 'react-modal';
 
 function PaginaUsuarioContent({amigos, usuario, token, usersPictures}){
     const [amigoChat, setAmigoChat] = useState(null)
@@ -23,8 +24,9 @@ function PaginaUsuarioContent({amigos, usuario, token, usersPictures}){
         setShowMenu(!showMenu);  
     }
 
-    const toggleCreateRoom = () => {
-        setShowCreateRoom(!showCreateRoom)
+    const toggleCreateRoom = (e) => {
+        e.preventDefault()
+        setIsOpen(true)
     }
 
     useEffect(()=>{
@@ -62,18 +64,23 @@ function PaginaUsuarioContent({amigos, usuario, token, usersPictures}){
         }
         
     }, [room, amigos])
-
+    const [isOpen, setIsOpen] = useState(false);
     return(
         <div className={styles.content}>
+            <Modal
+                isOpen={isOpen}
+                onRequestClose={() => setIsOpen(false)}
+                contentLabel="Example Modal"
+            >
+                <button onClick={()=>setIsOpen(false)}>x</button>
+                <CreateRoomMenu amigos={amigos} usersPictures={usersPictures} token={token}/>
+            </Modal>
             {showMenu ? 
                 <Perfil 
                     usuario={usuario} 
-                    handleToggleMenu={toggleMenu} 
+                    onToggleMenu={toggleMenu} 
                     token={token}
                 />
-                :
-                showCreateRoom ?
-                <CreateRoomMenu amigos={amigos} usersPictures={usersPictures}/>
                 :
                 <ListaAmigos 
                     amigos={amigos} 
