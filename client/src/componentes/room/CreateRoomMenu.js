@@ -1,33 +1,34 @@
 import Input from '../cadastroLogin/form_components/Input'
 import styles from './CreateRoomMenu.module.css'
-import AmigoContainer from '../chat/componentesListaAmigos/AmigoContainer'
+import AmigoContainer from './AmigoContainer'
 import SubmitButtonRoomForm from './SubmitButtonRoomForm'
 import ClosePageButton from '../utils/ClosePageButton'
 import { useState } from 'react'
 import { json } from 'react-router-dom'
 
 function CreateRoomMenu({amigos, usersPictures, token}){
-    const [room, setRoom] = useState({})
-    const [listaAmigos, setListaAmigos] = useState([])
+    const [room, setRoom] = useState({'users_id':[]})
 
     function handleChange(e){
         setRoom({...room, [e.target.name]:e.target.value})
+        console.log(room)
     }
 
     function adicionarAmigo(id){
-        setListaAmigos((prevLista)=>{
-            if(!prevLista.includes(id)){
-                return [...listaAmigos, id]
+        setRoom((prevRoom)=>{
+            if(!prevRoom.users_id.includes(id)){
+                return {...room, users_id: [...room.users_id, id]}
             }
             else{
-                return listaAmigos.filter((amigoId) => amigoId !== id)
+                return {...room, users_id: room.users_id.filter((amigoId) => amigoId !== id)}
             }
         })
+        console.log(room)
     }
 
     function submit(e){
         e.preventDefault()
-        setRoom({...room, users_id:listaAmigos})
+        //setRoom({...room, users_id:listaAmigos})
         fetch("http://localhost:8080/api/v1/rooms", {
             method: "POST",
             headers:{
@@ -54,7 +55,7 @@ function CreateRoomMenu({amigos, usersPictures, token}){
         />
         {amigos.map((amigo)=>
             <AmigoContainer 
-                selecionado={listaAmigos.includes(amigo.id)}
+                selecionado={room['users_id'].includes(amigo.id)}
                 amigo={amigo} 
                 userPicture={usersPictures[amigo.id]}        
                 handleOnClick={adicionarAmigo}

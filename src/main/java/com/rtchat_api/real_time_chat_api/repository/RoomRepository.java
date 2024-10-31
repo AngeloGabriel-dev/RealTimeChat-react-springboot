@@ -18,6 +18,6 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
             nativeQuery = true)
     Optional<Room> findFirstRoomByTwoUsers(Long userId1, Long userId2);
 
-    @Query("SELECT r FROM Room r JOIN r.users u WHERE u = :usuario AND r.nome IS NOT NULL")
-    List<Room> findAllByUsuarioAndNomeNotNull(@Param("usuario") Usuario usuario);
+    @Query("SELECT r FROM Room r JOIN r.users u WHERE u = :usuario")
+    List<Room> findAllByUsuario(@Param("usuario") Usuario usuario);
 }

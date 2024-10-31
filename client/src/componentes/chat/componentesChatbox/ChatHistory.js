@@ -3,7 +3,7 @@ import ChatMessage from './ChatMessage';
 import MessageSender from './MessageSender';
 
 
-function ChatHistory({mensagens, usuario, amigo}){
+function ChatHistory({mensagens, usuario, room}){
 
     function converteTimestamp(seconds, timestamp){
         if (seconds !== undefined){
@@ -27,9 +27,18 @@ function ChatHistory({mensagens, usuario, amigo}){
 
     return(    
         <div className={styles.chat_history}>
-            {mensagens.map((mensagem) => (
-                
-                <ChatMessage conteudo={mensagem.content} data_mensagem={converteTimestamp(mensagem.timestamp.seconds, mensagem.timestamp)} nome={usuario.id === mensagem.sender_id? usuario.nome:amigo.nome} eh_minha={usuario.id === mensagem.sender_id}/>
+            {mensagens.length > 0 && mensagens.map((mensagem) => (
+                <ChatMessage 
+                    conteudo={mensagem.content} 
+                    data_mensagem={converteTimestamp(mensagem.timestamp.seconds, mensagem.timestamp)} 
+                    nome={usuario.id === mensagem.sender_id 
+                        ? 
+                        usuario.nome
+                        :
+                        room.users.filter((user)=>user.id === mensagem.sender_id)[0].nome
+                    } 
+                    eh_minha={usuario.id === mensagem.sender_id}
+                />
             ))}
         </div>
     )

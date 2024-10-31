@@ -1,10 +1,10 @@
-import logo from '../../../imagens/logo192.png';
+import img from '../../../imagens/userImage.jpg';
 import styles from './ChatHeader.module.css';
 
-function ChatHeader({img_src, nome, userPicture}){
+function ChatHeader({nome, roomPicture}){
     return (
         <div className={styles.header}>
-            <img src={userPicture} alt='slar'/>
+            <img src={roomPicture ? roomPicture:img} alt='slar'/>
             <div className={styles.chat_about}>
                 <span>{nome}</span>
                 <br/>

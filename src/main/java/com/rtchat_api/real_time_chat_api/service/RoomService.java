@@ -35,6 +35,11 @@ public class RoomService {
 
     }
 
+    @Transactional
+    public void deletarRoom(Room room){
+        roomRepository.delete(room);
+    }
+
     public Room adicionarUsersNaRoom(Long roomId, Set<Usuario> users) {
         Room room = roomRepository.findById(roomId).orElseThrow(
                 () -> new EntityNotFoundException(String.format("Sala com id = %s não encontrada", roomId))
@@ -45,6 +50,6 @@ public class RoomService {
     }
 
     public List<Room> buscarTodasRoomsUsuario(Usuario usuario){
-        return roomRepository.findAllByUsuarioAndNomeNotNull(usuario);
+        return roomRepository.findAllByUsuario(usuario);
     }
 }

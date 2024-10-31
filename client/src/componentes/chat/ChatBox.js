@@ -10,7 +10,7 @@ import Stomp from "stompjs"
 
 
 
-function ChatBox({amigo, mensagens, usuario, room, userPicture}){
+function ChatBox({mensagens, usuario, room, roomsPicture}){
     const [messages, setMessages] = useState(mensagens)
     let qtd_mensagens = mensagens.length
     const [stompClient, setStompClient] = useState(null)
@@ -40,7 +40,6 @@ function ChatBox({amigo, mensagens, usuario, room, userPicture}){
             const chatMessage = {
                 room_id: room.id,
                 sender_id: usuario.id,
-                receiver_id: amigo.id,
                 content: message,
             }
             console.log(chatMessage)
@@ -52,8 +51,17 @@ function ChatBox({amigo, mensagens, usuario, room, userPicture}){
 
     return(
     <div className={styles.chat}>
-        <ChatHeader nome={amigo.nome} qtd_mensagens={mensagens.length} userPicture={userPicture}/>
-        <ChatHistory mensagens={messages} usuario={usuario} amigo={amigo}/>
+        <ChatHeader 
+            nome={room.nome === null 
+                    ? room.users.filter((user)=>user.id !== usuario.id)[0].nome 
+                    : 
+                    room.nome} 
+            qtd_mensagens={mensagens.length}
+            roomPicture={room.nome === null ? 
+            roomsPicture[room.users.filter((user)=>user.id !== usuario.id)[0].id] 
+            : 
+            roomsPicture[room.id]}/>
+        <ChatHistory mensagens={messages} usuario={usuario} room={room}/>
         <MessageSender onSendMessage={sendMessage}/>
     </div>
     )

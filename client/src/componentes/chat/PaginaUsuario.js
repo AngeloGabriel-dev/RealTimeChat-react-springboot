@@ -76,8 +76,7 @@ function PaginaUsuario(){
             .then(resp => resp.json())
             .then(data => {
                 setUsuario({...usuario, ['amigos']:data})
-                
-                setCarregou(true)
+
             })
             .catch(err => console.log(err))
         }
@@ -94,7 +93,8 @@ function PaginaUsuario(){
             })
             .then(resp => resp.json())
             .then(data => {
-                setRooms(data)
+                setRooms(data)  
+                setCarregou(true)
             })
             .catch(err => console.log(err))
         }
@@ -108,7 +108,7 @@ function PaginaUsuario(){
                 amigos={usuario.amigos} 
                 usuario={usuario} 
                 token={token} 
-                usersPictures={usersPictures}
+                roomsPictures={usersPictures}
                 rooms={rooms}
             /> 
             : 

@@ -39,5 +39,6 @@ public class AmizadeService {
     public void removerAmizadePorId(Long id_usuario, Long id_amigo){
         amizadeRepository.deleteByUsuarioIdAndAmigoId(id_usuario, id_amigo);
         amizadeRepository.deleteByUsuarioIdAndAmigoId(id_amigo, id_usuario);
+        roomService.deletarRoom(roomService.buscarRoomDeAmigos(id_usuario, id_amigo));
     }
 }
