@@ -24,5 +24,11 @@ id	bigint AI PK <br>
 nome	varchar(30) <br>
 users usuarios[] <br>
 
+# Collection Schemes
 ### messages
-room_id number <Br>
+ content text; <br>
+ receiver_id number; <br>
+ sender_id number; <br>
+ room_id number; <br>
+ timestamp date; <br>
+ 
