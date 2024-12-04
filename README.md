@@ -1,8 +1,6 @@
-A Real Time Chat made using react for the client side and spring boot to the server side. The project contains a firestore to store messages, firestorage to store files such profile pictures and a mysql database to store users, rooms and friendships.
-The project contains a web socket api to do the bidirectional comunication between the server and client.
-The project also uses a jwt bearear token as authentication method. <br>
+A Real-Time Chat made using React for the client side and Spring Boot for the server side. The project uses Firestore to store messages, Firebase Storage to store files such as profile pictures, and a MySQL database to store users, rooms, and friendships. It also includes a WebSocket API for bidirectional communication between the server and client. The project uses a JWT bearer token for authentication. <br>
 <br>
-My purpose with this project was learn how to build real time things and I really apreciated do that.
+My goal with this project was to learn how to build real-time applications, and I really enjoyed doing that.
 
 # Table Schemes
 ### usuarios (users)
@@ -36,4 +34,4 @@ users usuarios[] <br>
  timestamp date; <br>
 
  # How to implement
- To implement this system on your machine, you will need a MySql database where you will create all tables specified above, also do you will need a firestore and firestorage to storage the messages and the profile pictures.
+To implement this system on your machine, you will need a MySQL database where you will create all the tables specified above. You will also need Firestore and Firebase Storage to store the messages and profile pictures.
