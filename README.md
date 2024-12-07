@@ -35,3 +35,7 @@ users usuarios[] <br>
 
  # How to implement
 To implement this system on your machine, you will need a MySQL database where you will create all the tables specified above. You will also need Firestore and Firebase Storage to store the messages and profile pictures.
+
+<img src="https://github.com/AngeloGabriel-dev/RealTimeChat-react-springboot/blob/main/chat.PNG"/>
+<img src="https://github.com/AngeloGabriel-dev/RealTimeChat-react-springboot/blob/main/chat2.PNG"/>
+<img src="https://github.com/AngeloGabriel-dev/RealTimeChat-react-springboot/blob/main/chat3.PNG"/>
