@@ -4,6 +4,7 @@ import ListaAmigos from './ListaAmigos.js'
 import styles from './PaginaUsuario.module.css'
 import { useNavigate } from 'react-router-dom'
 import PaginaUsuarioContent from './PaginaUsuarioContent.js'
+import img from '../../imagens/userImage.jpg'
 
 function downloadProfilePicture(token, id) {
     fetch("http://localhost:8080/api/v1/storage/downloadProfilePicture", {
@@ -13,8 +14,15 @@ function downloadProfilePicture(token, id) {
     method: "GET"
     })
     .then(resp => resp.text())
-    .then(data => localStorage.setItem("img_profile_url"+id, data))
-    .catch(error => console.log(error))
+    .then(data => {
+        if(data === "Erro ao baixar image"){
+            localStorage.setItem("img_profile_url"+id, img)
+        }
+        else{
+            localStorage.setItem("img_profile_url"+id, data)
+        }
+        
+    })
     //localStorage.setItem("img_profile_url"+id, response)
     //return url
 }
@@ -43,25 +51,24 @@ function PaginaUsuario(){
     
 
     useEffect(()=>{
-        setTimeout(()=>{
-            fetch("http://localhost:8080/api/v1/usuarios", {
-                headers:{
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type':'application/json'
-                },
-                method:'GET'
-            })
-            .then(resp => resp.json())
-            .then(data => {
-                setUsuario(data);
-                downloadProfilePicture(token, data.id)
-                downloadFriendsProfilePictures(token).then(data => setUsersPictures(data))
-            })
-            .catch(err => {
-                console.log('Seu token expirou!')
-                navigate('/')
-            })
-        }, 1000)
+        fetch("http://localhost:8080/api/v1/usuarios", {
+            headers:{
+                'Authorization': `Bearer ${token}`,
+                'Content-Type':'application/json'
+            },
+            method:'GET'
+        })
+        .then(resp => resp.json())
+        .then(data => {
+            setUsuario(data);
+            downloadProfilePicture(token, data.id)
+            //downloadFriendsProfilePictures(token).then(data => setUsersPictures(data))
+            //console.log(downloadFriendsProfilePictures(token))
+        })
+        .catch(err => {
+            console.log('Seu token expirou!')
+            navigate('/')
+        })
     }, [])
 
     useEffect(() => {
@@ -80,7 +87,7 @@ function PaginaUsuario(){
             })
             .catch(err => console.log(err))
         }
-    }, [usersPictures])
+    }, [usuario.id])
 
     useEffect(()=>{
         if(usuario.id !== null){

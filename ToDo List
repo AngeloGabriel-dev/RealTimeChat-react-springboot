@@ -1,0 +1,5 @@
+- Make a channel to push notifications via websocket -> OK
+- Make a channel to push notifications via webpush
+- Make interface ChatMassageRepository to isolate the infrastructure -> OK
+- Remove the business rules on websocket -> OK
+

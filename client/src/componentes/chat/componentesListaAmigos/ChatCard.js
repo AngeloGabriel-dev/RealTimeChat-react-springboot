@@ -12,7 +12,7 @@ function ChatCard({usuario, room, selecionado, roomPicture, handleOnClick}){
                 className={selecionado? styles.container_selecionado:styles.container} 
                 onClick={retornaId}
             > 
-                <img src={roomPicture} className={styles.component}/>
+                <img src={roomPicture ? roomPicture : img} className={styles.component}/>
                 <span>{room.nome === null
                         ? room.users.filter((user)=>user.id !== usuario.id)[0].nome 
                         : 

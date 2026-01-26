@@ -22,7 +22,7 @@ function UserMenu({usuario, onToggleMenu, onToggleCreateRoomMenu}){
     return (
         <div className={styles.container}>
             <img 
-                src={localStorage.getItem("img_profile_url"+usuario.id)} 
+                src={localStorage.getItem("img_profile_url"+usuario.id) ? localStorage.getItem("img_profile_url"+usuario.id) : img} 
                 className={styles.component}
                 onClick={onToggleMenu}
             />

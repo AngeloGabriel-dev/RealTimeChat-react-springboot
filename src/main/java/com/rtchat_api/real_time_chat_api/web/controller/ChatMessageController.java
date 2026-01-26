@@ -1,7 +1,7 @@
 package com.rtchat_api.real_time_chat_api.web.controller;
 
 import com.rtchat_api.real_time_chat_api.entity.ChatMessage;
-import com.rtchat_api.real_time_chat_api.service.ChatMessageService;
+import com.rtchat_api.real_time_chat_api.service.chat_service.ChatMessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

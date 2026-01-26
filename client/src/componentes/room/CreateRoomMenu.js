@@ -53,6 +53,7 @@ function CreateRoomMenu({amigos, usersPictures, token}){
             placeholder={"Digite o nome do grupo"}
             handleOnChange={handleChange}
         />
+        {console.log(amigos)}
         {amigos.map((amigo)=>
             <AmigoContainer 
                 selecionado={room['users_id'].includes(amigo.id)}

@@ -5,7 +5,11 @@
 }
 
 .pagina_login{
-    padding: 10px;
+    background: linear-gradient(90deg, rgb(133, 0, 133) 0%,  rgb(41, 0, 41) 100%);
+    background-color: rgb(85, 0, 85);
+    height: 100%;
+    padding: 2%;
+    padding-bottom: 10%;
     margin-top: 10px;
 }
 
@@ -20,7 +24,8 @@
     transition: 400ms;
     text-decoration: none;
     font-size: 15pt;
-    color: black;
+    color: rgb(230, 105, 255);
+    background-color: rgb(160, 0, 160, 25%);
 }
 .link:hover{
     transition: 400ms;

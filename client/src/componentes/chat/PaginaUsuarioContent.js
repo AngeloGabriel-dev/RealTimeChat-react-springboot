@@ -36,6 +36,7 @@ function PaginaUsuarioContent({amigos, usuario, token, roomsPictures, rooms}){
     useEffect(()=>{
         if(roomSelecionadaId  && mensagensChat === null){  
             setRoom(rooms.filter(room => room.id === roomSelecionadaId)[0])
+            console.log(room.users)
             fetch(`http://localhost:8080/api/v1/chatMessages/${roomSelecionadaId}`, {
                 headers:{
                     'Authorization': `Bearer ${token}`,
