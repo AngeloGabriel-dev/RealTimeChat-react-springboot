@@ -19,19 +19,26 @@ public class Amizade {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id", nullable = false)
-    private Usuario usuario;
+    @JoinColumn(name = "usuario_id1", nullable = false)
+    private Usuario usuario1;
 
     @ManyToOne
-    @JoinColumn(name = "amigo_id", nullable = false)
-    private Usuario amigo;
+    @JoinColumn(name = "usuario_id2", nullable = false)
+    private Usuario usuario2;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 9)
     private Status status = Status.PENDENTE;
 
-    private enum Status{
+    public enum Status{
         PENDENTE, ACEITO
+    }
+
+    @Override
+    public String toString() {
+        return "Amizade{" +
+                "id=" + id +
+                '}';
     }
 
     @Override
@@ -39,7 +46,7 @@ public class Amizade {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Amizade amizade = (Amizade) o;
-        return Objects.equals(id, amizade.id) && Objects.equals(usuario, amizade.usuario) && Objects.equals(amigo, amizade.amigo);
+        return Objects.equals(id, amizade.id);
     }
 
     @Override

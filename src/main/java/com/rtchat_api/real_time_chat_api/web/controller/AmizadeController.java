@@ -30,18 +30,8 @@ public class AmizadeController {
     @GetMapping("/{username}")
     public void friendRequest(@PathVariable String username,
                               @AuthenticationPrincipal JwtUserDetails userDetails){
-        Amizade nova_amizade = new Amizade();
-        Room room = new Room();
-        Usuario usuario = usuarioService.buscarPorId(userDetails.getId());
-        Usuario amigo = usuarioService.buscarPorUsername(username);
-        nova_amizade.setUsuario(usuario);
-        nova_amizade.setAmigo(amigo);
-        Set<Usuario> users = new HashSet<>();
-        users.add(nova_amizade.getUsuario());
-        users.add(nova_amizade.getAmigo());
-        room.setUsers(users);
-        roomService.criarRoomEntreAmigos(room);
-        amizadeService.solicitarAmizade(nova_amizade);
+
+        amizadeService.solicitarAmizade(userDetails.getId(), username);
     }
 
     @GetMapping

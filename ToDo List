@@ -3,3 +3,8 @@
 - Make interface ChatMassageRepository to isolate the infrastructure -> OK
 - Remove the business rules on websocket -> OK
 
+===== Fixing AmizadeService =====
+- Implement more business rules on solicitarAmizade -> OK
+- Fix queries that delete Amizades -> OK
+- Fix pegarAmizadesPorUsuario -> OK
+- Implement acceptFriendship method on AmizadeService -> OK
