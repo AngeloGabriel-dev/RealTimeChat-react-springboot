@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.AccessDeniedException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,20 +33,15 @@ public class RoomController {
     @PostMapping
     public ResponseEntity<Room> createRoom(@RequestBody @Valid RoomCreateDto dto,
                                             @AuthenticationPrincipal JwtUserDetails userDetails){
-        Room room = new Room();
-        room.setNome(dto.getNome());
-        Set<Usuario> users = usuarioService.buscarListaUsuariosPorId(dto.getUsers_id());
-        users.add(usuarioService.buscarPorId(userDetails.getId()));
-        room.setUsers(users);
-        return ResponseEntity.ok(roomService.criarRoom(room));
+
+        return ResponseEntity.ok(roomService.criarRoom(dto, userDetails.getId()));
     }
 
     @PutMapping("/addUsersToRoom/{room_id}")
     public ResponseEntity<Room> addUsersToRoom(@PathVariable Long room_id,
                                                @RequestBody @Valid RoomCreateDto dto,
-                                               @AuthenticationPrincipal JwtUserDetails userDetails){
-        Set<Usuario> users = usuarioService.buscarListaUsuariosPorId(dto.getUsers_id());
-        Room room_atualizada = roomService.adicionarUsersNaRoom(room_id, users);
+                                               @AuthenticationPrincipal JwtUserDetails userDetails) throws AccessDeniedException {
+        Room room_atualizada = roomService.addUsersToRoomById(room_id, dto, userDetails.getId());
         return ResponseEntity.ok(room_atualizada);
     }
 

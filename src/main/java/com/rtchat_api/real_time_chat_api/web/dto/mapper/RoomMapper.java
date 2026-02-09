@@ -12,9 +12,9 @@ import java.util.stream.Collectors;
 
 public class RoomMapper {
     public static RoomResponseDto toDto(Room room){
-        List<UsuarioResponseDto> users = UsuarioMapper.toListDto(room.getUsers().stream().toList());
+        //List<UsuarioResponseDto> users = UsuarioMapper.toListDto(room.getUsers().stream().toList());
         RoomResponseDto roomResponseDto = new ModelMapper().map(room, RoomResponseDto.class);
-        roomResponseDto.setUsers(users);
+        //roomResponseDto.setUsers(users);
         return roomResponseDto;
     }
 

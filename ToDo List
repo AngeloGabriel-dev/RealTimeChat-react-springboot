@@ -8,3 +8,7 @@
 - Fix queries that delete Amizades -> OK
 - Fix pegarAmizadesPorUsuario -> OK
 - Implement acceptFriendship method on AmizadeService -> OK
+
+===== Fixing Room Service =====
+- Remove business rules on RoomController
+

@@ -16,7 +16,7 @@ public interface AmizadeRepository extends JpaRepository<Amizade, Long> {
 
         @Modifying
         @Transactional
-        @Query("DELETE a FROM Amizade a WHERE (a.usuario1.id = :userId1 AND a.usuario2.id = :userId2) OR (a.usuario1.id = :userId2 AND a.usuario2.id = :userId1")
+        @Query("DELETE FROM Amizade a WHERE (a.usuario1.id = :userId1 AND a.usuario2.id = :userId2) OR (a.usuario1.id = :userId2 AND a.usuario2.id = :userId1)")
         void deleteByUsuario1IdAndUsuario2Id(Long userId1, Long userId2);
 
         @Query("SELECT a FROM Amizade a WHERE (a.usuario1.id = :userId1 AND a.usuario2.id = :userId2) OR (a.usuario1.id = :userId2 AND a.usuario2.id = :userId1)")

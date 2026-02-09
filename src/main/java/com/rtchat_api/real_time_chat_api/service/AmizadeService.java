@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.file.AccessDeniedException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -60,17 +61,16 @@ public class AmizadeService {
     }
 
     @Transactional
-    public Amizade acceptFriendship(Long amizade_id){
+    public void acceptFriendshipById(Long amizade_id, Long user_id) throws AccessDeniedException {
         Amizade amizade = amizadeRepository.findById(amizade_id).orElseThrow(
                 () -> new EntityNotFoundException(String.format("Amizade com id = %d não encontrado.", amizade_id))
         );
+        if (!amizade.getUsuario2().getId().equals(user_id)){
+            throw new AccessDeniedException("Usuario não tem permissão para aceitar essa amizade.");
+        }
         amizade.setStatus(Amizade.Status.ACEITO);
-        Room room = new Room();
-        Set<Usuario> users = new HashSet<>();
-        users.add(amizade.getUsuario1());
-        users.add(amizade.getUsuario2());
-        room.setUsers(users);
-        roomService.criarRoomEntreAmigos(room);
-        return amizadeRepository.save(amizade);
+        roomService.criarRoomEntreAmigos(amizade);
+        amizadeRepository.save(amizade);
+
     }
 }

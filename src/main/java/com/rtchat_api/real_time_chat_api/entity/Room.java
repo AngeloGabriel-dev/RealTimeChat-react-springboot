@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -21,12 +22,8 @@ public class Room {
     @Column(name="nome", nullable = true, length = 30)
     private String nome;
 
-    @ManyToMany
-    @JoinTable(
-            name = "room_users",
-            joinColumns = @JoinColumn(name = "room_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private Set<Usuario> users;
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<RoomUsuario> room_users = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {

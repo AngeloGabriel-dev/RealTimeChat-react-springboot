@@ -39,6 +39,9 @@ public class Usuario {
     @Column(name="nome", nullable = false, unique = true, length = 100)
     private String nome;
 
+    @OneToMany(mappedBy = "user")
+    private Set<RoomUsuario> room_users = new HashSet<>();
+
     @CreatedDate
     @Column(name = "data_criacao")
     private LocalDateTime dataCriacao;

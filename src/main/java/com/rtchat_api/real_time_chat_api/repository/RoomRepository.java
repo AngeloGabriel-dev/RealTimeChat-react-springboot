@@ -11,13 +11,17 @@ import java.util.Optional;
 
 public interface RoomRepository extends JpaRepository<Room, Long> {
     @Query(value = "SELECT * FROM rooms r " +
-            "JOIN room_users ru1 ON r.id = ru1.room_id " +
-            "JOIN room_users ru2 ON r.id = ru2.room_id " +
+            "JOIN room_usuario ru1 ON r.id = ru1.room_id " +
+            "JOIN room_usuario ru2 ON r.id = ru2.room_id " +
             "WHERE ru1.user_id = :userId1 AND ru2.user_id = :userId2 AND r.nome IS NULL " +
             "LIMIT 1 ",
             nativeQuery = true)
     Optional<Room> findFirstRoomByTwoUsers(Long userId1, Long userId2);
 
-    @Query("SELECT r FROM Room r JOIN r.users u WHERE u = :usuario")
+    @Query("""
+    SELECT ru.room
+    FROM RoomUsuario ru
+    WHERE ru.user = :usuario
+    """)
     List<Room> findAllByUsuario(@Param("usuario") Usuario usuario);
 }
