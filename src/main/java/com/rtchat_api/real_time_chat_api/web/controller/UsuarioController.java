@@ -20,7 +20,6 @@ import static com.rtchat_api.real_time_chat_api.web.dto.mapper.UsuarioMapper.toD
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/usuarios")
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3000/cadastro"})
 public class UsuarioController {
     private final UsuarioService usuarioService;
 

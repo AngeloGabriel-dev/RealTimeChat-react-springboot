@@ -1,5 +1,6 @@
 package com.rtchat_api.real_time_chat_api.web.dto.roomDto;
 
+import com.rtchat_api.real_time_chat_api.entity.Room;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
@@ -10,4 +11,5 @@ public class RoomCreateDto {
     @NotBlank
     private String nome;
     private List<Long> users_id;
+    private Room.RoomType roomType;
 }

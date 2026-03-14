@@ -4,9 +4,16 @@ import InputFileButton from "../utils/InputFileButton"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCamera, faClose } from "@fortawesome/free-solid-svg-icons"
 import { useState } from "react"
+import { useUserStore } from '../utils/UseUserStore.js'
 
-function Perfil({usuario, onToggleMenu, token}){
+
+
+function Perfil({onToggleMenu}){
+    const usuario = useUserStore((state) => state.usuario)
     const [profileImage, setProfileImage] = useState(usuario.profileImage)
+    const token = localStorage.getItem('token')
+    const API_URL = process.env.REACT_APP_API_URL;
+
 
     const onHandleFile = (e) => {
         const file = e.target.files[0]
@@ -16,7 +23,7 @@ function Perfil({usuario, onToggleMenu, token}){
                 setProfileImage(reader.result)
                 const formData = new FormData();
                 formData.append("file", file)
-                fetch("http://localhost:8080/api/v1/storage/updateProfilePicture", {
+                fetch(`${API_URL}/api/v1/storage/updateProfilePicture`, {
                     headers:
                         {
                             'Authorization': `Bearer ${token}`
@@ -39,7 +46,7 @@ function Perfil({usuario, onToggleMenu, token}){
             </button>
             <div className={styles.perfil_components}>
                 <span className={styles.name}>{usuario.nome}</span>
-                <img id="profile_image" className={styles.profile_img} src={localStorage.getItem("img_profile_url"+usuario.id)}/>
+                <img id="profile_image" className={styles.profile_img} src={img}/>
                 
                 
                 <InputFileButton typeFile={"image"} icon={faCamera} handleFile={onHandleFile}/>

@@ -29,6 +29,7 @@ public class RoomService {
     public Room criarRoom(RoomCreateDto dto, Long creatorId){
         Room room = new Room();
         room.setNome(dto.getNome());
+        room.setType(Room.RoomType.GROUP);
 
         Usuario creator = usuarioService.buscarPorId(creatorId);
 
@@ -48,6 +49,7 @@ public class RoomService {
     @Transactional
     public void criarRoomEntreAmigos(Amizade amizade){
         Room room = new Room();
+        room.setType(Room.RoomType.DIRECT);
 
         Set<RoomUsuario> relations = new HashSet<>();
 

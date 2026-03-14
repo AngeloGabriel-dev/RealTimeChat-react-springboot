@@ -1,7 +1,15 @@
 import styles from './ChatCard.module.css'
 import img from '../../../imagens/userImage.jpg'
+import { useUserStore } from '../../utils/UseUserStore.js'
 
-function ChatCard({usuario, room, selecionado, roomPicture, handleOnClick}){
+import { shallow } from "zustand/shallow";
+
+function ChatCard({room, selecionado, handleOnClick}){
+    const usuario = useUserStore(state => state.usuario);
+
+    console.log(room)
+
+    
     const retornaId = (e) => {
         handleOnClick(room.id)    
     }
@@ -9,11 +17,11 @@ function ChatCard({usuario, room, selecionado, roomPicture, handleOnClick}){
     return(
         <div>
             <div 
-                className={selecionado? styles.container_selecionado:styles.container} 
+                className={selecionado ? styles.container_selecionado : styles.container} 
                 onClick={retornaId}
             > 
-                <img src={roomPicture ? roomPicture : img} className={styles.component}/>
-                <span>{room.nome === null
+                <img src={img} className={styles.component} alt={img}/>
+                <span>{room.type === "DIRECT"
                         ? room.users.filter((user)=>user.id !== usuario.id)[0].nome 
                         : 
                         room.nome}

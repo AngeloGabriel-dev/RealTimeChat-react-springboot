@@ -1,9 +1,17 @@
 import styles from './ChatHistory.module.css';
 import ChatMessage from './ChatMessage';
 import MessageSender from './MessageSender';
+import { useUserStore } from '../../utils/UseUserStore.js'
+
+import { shallow } from "zustand/shallow";
 
 
-function ChatHistory({mensagens, usuario, room}){
+function ChatHistory(){
+    const usuario = useUserStore(state => state.usuario);
+    const messagesByRoom = useUserStore(state => state.messagesByRoom);
+    const rooms = useUserStore(state => state.rooms);
+    const roomSelecionadaId = useUserStore(state => state.roomSelecionadaId);
+    const room = rooms.find(r => r.id === roomSelecionadaId);
 
     function converteTimestamp(seconds, timestamp){
         if (seconds !== undefined){
@@ -22,12 +30,11 @@ function ChatHistory({mensagens, usuario, room}){
         });
         
         return dataFormatada
-        
     }
 
     return(    
         <div className={styles.chat_history}>
-            {mensagens.length > 0 && mensagens.map((mensagem) => (
+            {messagesByRoom[roomSelecionadaId].length > 0 && messagesByRoom[roomSelecionadaId].map((mensagem) => (
                 <ChatMessage 
                     conteudo={mensagem.content} 
                     data_mensagem={converteTimestamp(mensagem.timestamp.seconds, mensagem.timestamp)} 
@@ -35,7 +42,7 @@ function ChatHistory({mensagens, usuario, room}){
                         ? 
                         usuario.nome
                         :
-                        room.users.filter((user)=>user.id === mensagem.sender_id)[0].nome
+                        room.users.find((user)=>user.id === mensagem.sender_id).nome
                     } 
                     eh_minha={usuario.id === mensagem.sender_id}
                 />

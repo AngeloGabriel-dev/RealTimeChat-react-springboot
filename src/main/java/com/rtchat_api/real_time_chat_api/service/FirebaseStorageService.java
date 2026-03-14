@@ -27,11 +27,11 @@ public class FirebaseStorageService {
         bucket.create(imageName, inputStream, imageFile.getContentType());
     }
 
-    public String download(String path) throws IOException {
+    public String download(String path) {
         Bucket bucket = StorageClient.getInstance().bucket();
         Blob blob = bucket.get(path);
         if (blob == null){
-            throw new IOException("File not found: " + path);
+            return null;
         }
         //ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         //blob.downloadTo(outputStream);
@@ -39,19 +39,16 @@ public class FirebaseStorageService {
         return signedUrl.toString();
     }
 
-    public HashMap<Long, String> baixarAmigosFotoPerfil(List<Usuario> users) throws IOException {
+    public HashMap<Long, String> baixarAmigosFotoPerfil(List<Usuario> users){
         HashMap<Long, String> profile_pictures = new HashMap<>();
 
         for(Usuario user:users){
             String urlImage;
-            try{
-                urlImage = this.download("users/user_"+ user.getUsername()+"/profile_pic");
-            } catch (IOException e){
-                throw new RuntimeException(e);
-            }
-            if(urlImage != null){
-                profile_pictures.put(user.getId(), urlImage);
-            }
+
+            urlImage = this.download("users/user_"+ user.getUsername()+"/profile_pic");
+
+            if(urlImage != null) profile_pictures.put(user.getId(), urlImage);
+            else profile_pictures.put(user.getId(), "default");
         }
 
 //        profile_pictures = users.stream().map((usuario)-> {

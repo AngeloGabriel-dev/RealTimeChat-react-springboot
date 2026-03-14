@@ -10,5 +10,7 @@
 - Implement acceptFriendship method on AmizadeService -> OK
 
 ===== Fixing Room Service =====
-- Remove business rules on RoomController
+- Remove business rules on RoomController -> OK
+
+- Make dto for friendship
 

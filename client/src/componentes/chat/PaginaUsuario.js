@@ -1,123 +1,108 @@
 import { useEffect, useState } from 'react'
-import ChatBox from './ChatBox.js'
-import ListaAmigos from './ListaAmigos.js'
-import styles from './PaginaUsuario.module.css'
 import { useNavigate } from 'react-router-dom'
-import PaginaUsuarioContent from './PaginaUsuarioContent.js'
 import img from '../../imagens/userImage.jpg'
 
+import styles from './PaginaUsuario.module.css'
+
+import ChatBox from './ChatBox.js'
+import ListaAmigos from './ListaAmigos.js'
+import PaginaUsuarioContent from './PaginaUsuarioContent.js'
+import { useUserStore } from '../utils/UseUserStore.js'
+
+
 function downloadProfilePicture(token, id) {
-    fetch("http://localhost:8080/api/v1/storage/downloadProfilePicture", {
+    const API_URL = process.env.REACT_APP_API_URL;
+
+    fetch(`${API_URL}/api/v1/storage/downloadProfilePicture`, {
     headers: {
         "Authorization": `Bearer ${token}`,
     },
     method: "GET"
     })
     .then(resp => resp.text())
-    .then(data => {
-        if(data === "Erro ao baixar image"){
-            localStorage.setItem("img_profile_url"+id, img)
-        }
-        else{
-            localStorage.setItem("img_profile_url"+id, data)
-        }
+    .then(data => localStorage.setItem("img_profile_url"+id, data)
+    )
         
-    })
+    
     //localStorage.setItem("img_profile_url"+id, response)
     //return url
 }
 
 function downloadFriendsProfilePictures(token){
-    const pictures = fetch("http://localhost:8080/api/v1/storage/downloadFriendsProfilePicture", {
+    const API_URL = process.env.REACT_APP_API_URL;
+
+    const pictures = fetch(`${API_URL}/api/v1/storage/downloadFriendsProfilePicture`, {
         headers: {
             "Authorization": `Bearer ${token}`
         },
         method: "GET"
     })
     .then(resp => resp.json())
-    .catch(error => console.log(error))
-
+    
     return pictures
 }
 
 
 function PaginaUsuario(){
     const navigate = useNavigate();
-    const [usuario, setUsuario] = useState({})
-    const [rooms, setRooms] = useState([])
+    const setUsuario = useUserStore(state => state.setUsuario)
+    const setAmigos = useUserStore(state => state.setAmigos)
+    const setRooms = useUserStore(state => state.setRooms)
+    const setUsersPictures= useUserStore(state => state.setUsersPictures)
     const [carregou, setCarregou] = useState(false)
     const token = localStorage.getItem('token')
-    const [usersPictures, setUsersPictures] = useState({})
+
+    const API_URL = process.env.REACT_APP_API_URL;
+
     
-
-    useEffect(()=>{
-        fetch("http://localhost:8080/api/v1/usuarios", {
-            headers:{
-                'Authorization': `Bearer ${token}`,
-                'Content-Type':'application/json'
-            },
-            method:'GET'
-        })
-        .then(resp => resp.json())
-        .then(data => {
-            setUsuario(data);
-            downloadProfilePicture(token, data.id)
-            //downloadFriendsProfilePictures(token).then(data => setUsersPictures(data))
-            //console.log(downloadFriendsProfilePictures(token))
-        })
-        .catch(err => {
-            console.log('Seu token expirou!')
-            navigate('/')
-        })
-    }, [])
-
-    useEffect(() => {
-        if (usuario.id != null){
-            fetch("http://localhost:8080/api/v1/amizades", {
-                headers:{
+    const carregarDados = async () => {
+        try {
+            const userResp = await fetch(`${API_URL}/api/v1/usuarios`, {
+                headers: {
                     'Authorization': `Bearer ${token}`,
-                    'Content-Type':'application/json'
-                },
-                method:'GET'
-            })
-            .then(resp => resp.json())
-            .then(data => {
-                setUsuario({...usuario, ['amigos']:data})
+                    'Content-Type': 'application/json'
+                }
+            });
 
-            })
-            .catch(err => console.log(err))
-        }
-    }, [usuario.id])
+            const usuarioData = await userResp.json();
 
-    useEffect(()=>{
-        if(usuario.id !== null){
-            fetch("http://localhost:8080/api/v1/rooms", {
-                headers:{
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type':'application/json'
-                },
-                method: "GET"
-            })
-            .then(resp => resp.json())
-            .then(data => {
-                setRooms(data)  
-                setCarregou(true)
-            })
-            .catch(err => console.log(err))
+            const [amizadesResp, roomsResp] = await Promise.all([
+                fetch(`${API_URL}/api/v1/amizades`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                }),
+                fetch(`${API_URL}/api/v1/rooms`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                })
+            ]);
+
+            const amigos = await amizadesResp.json();
+            const roomsData = await roomsResp.json();
+
+
+            //downloadProfilePicture(token)
+            const usersPicturesData = await downloadFriendsProfilePictures(token);
+
+            
+            setUsuario(usuarioData);
+            setAmigos(amigos);
+            setRooms(roomsData);
+            setUsersPictures(usersPicturesData);
+
+            setCarregou(true);
+
+        } catch (err) {
+            console.log("Token expirado");
+            navigate('/');
         }
-    }, [usuario.amigos])
+    }
+
+    useEffect(() => { carregarDados() }, [])
 
     return(
         <div>
             {
             carregou ? 
-            <PaginaUsuarioContent 
-                amigos={usuario.amigos} 
-                usuario={usuario} 
-                token={token} 
-                roomsPictures={usersPictures}
-                rooms={rooms}
-            /> 
+            <PaginaUsuarioContent/> 
             : 
             <p>Carregando...</p>
             }

@@ -4,24 +4,40 @@ import UserMenu from './UserMenu.js'
 import styles from './ListaAmigos.module.css'
 import Perfil from '../usuario/Perfil.js'
 import ChatCard from './componentesListaAmigos/ChatCard.js'
+import { useUserStore } from '../utils/UseUserStore.js'
+import { shallow } from "zustand/shallow";
 
-function ListaAmigos({handleRoomId, 
-                    usuario, 
-                    handleToggleMenu, 
-                    handleToggleCreateRoomMenu, 
-                    roomsPictures, 
-                    rooms
-                    }){
-    const [roomSelecionado, setRoomSelecionado] = useState(null)
 
-    function roomSelecionada(id){
-        setRoomSelecionado(id)
-        handleRoomId(id)
+
+function ListaAmigos({handleToggleMenu, handleToggleCreateRoomMenu}){
+    const rooms = useUserStore(state => state.rooms);
+    const roomSelecionadaId = useUserStore(state => state.roomSelecionadaId);
+    const messagesByRoom = useUserStore(state => state.messagesByRoom);
+    const setRoomSelecionadaId = useUserStore(state => state.setRoomSelecionadaId);
+    const setMessagesByRoom = useUserStore(state => state.setMessagesByRoom);
+
+    const API_URL = process.env.REACT_APP_API_URL;
+
+    
+    const pegarIdRoom = async (id) => {
+        console.log(id)
+        if(messagesByRoom[roomSelecionadaId] === undefined){
+            const messagesResp = await fetch(`${API_URL}/api/v1/chatMessages/${id}`, {
+                headers:{
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`,
+                    'Content-Type':'application/json'
+                },
+                method:'GET'
+            })
+            const messages = await messagesResp.json()
+            setMessagesByRoom(id, messages)
+        }
+        setRoomSelecionadaId(id)     
     }
+
     return(
         <div className={styles.lista}>
             <UserMenu 
-                usuario={usuario} 
                 onToggleMenu={handleToggleMenu} 
                 onToggleCreateRoomMenu={handleToggleCreateRoomMenu}
             />
@@ -29,11 +45,9 @@ function ListaAmigos({handleRoomId,
             {
                 rooms.map((room) => 
                 <ChatCard
-                    usuario={usuario}
                     room={room} 
-                    handleOnClick={roomSelecionada}
-                    selecionado={roomSelecionado === room.id}
-                    roomPicture={room.nome === null ? roomsPictures[room.users.filter((user)=>user.id !== usuario.id)[0].id] : roomsPictures[room.id]} 
+                    handleOnClick={pegarIdRoom}
+                    selecionado={roomSelecionadaId === room.id}
                 />)
             }
         </div>

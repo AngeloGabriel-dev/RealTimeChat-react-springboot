@@ -1,9 +1,11 @@
 package com.rtchat_api.real_time_chat_api.service.chat_service;
 
 import com.rtchat_api.real_time_chat_api.entity.ChatMessage;
+import com.rtchat_api.real_time_chat_api.event.MessageStored;
 import com.rtchat_api.real_time_chat_api.repository.ChatMessageRepository;
 import com.rtchat_api.real_time_chat_api.service.notification_service.NotificationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import javax.management.Notification;
@@ -19,18 +21,23 @@ public class ChatMessageService {
     private final ChatMessageRepository repository;
     private final MessagePublisher publisher;
     private final NotificationService notificationService;
+    private final ApplicationEventPublisher eventPublisher;
 
     public void sendMessage(ChatMessage chatMessage) throws ExecutionException, InterruptedException {
+        chatMessage.setState(ChatMessage.States.RECEIVED);
         chatMessage.setTimestamp(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")).toEpochSecond(ZoneOffset.of("-03:00")));
-        repository.save(chatMessage);
-        publisher.publishToRoom(chatMessage.getRoom_id(), chatMessage);
-        Notification notification = new Notification("NEW_MESSAGE",
-                                                chatMessage.getRoom_id(),
-                                                chatMessage.getSender_id(),
-                                                chatMessage.getTimestamp(),
-                                                chatMessage.getContent());
 
-        notificationService.sendNotification(chatMessage.getSender_id().toString(), notification);
+        System.out.println(chatMessage);
+
+        chatMessage.setState(ChatMessage.States.STORED);
+
+        repository.save(chatMessage);
+
+        eventPublisher.publishEvent(
+                new MessageStored(
+                        chatMessage
+                )
+        );
     }
 
     public String salvarChatMessage(ChatMessage chatMessage) throws ExecutionException, InterruptedException {

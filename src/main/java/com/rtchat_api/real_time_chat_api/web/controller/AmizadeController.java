@@ -23,7 +23,6 @@ import java.util.Set;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/amizades")
-@CrossOrigin(origins = {"http://localhost:3000"})
 public class AmizadeController {
     private final AmizadeService amizadeService;
     private final UsuarioService usuarioService;
@@ -55,8 +54,7 @@ public class AmizadeController {
     @DeleteMapping("/{amigo_id}")
     public ResponseEntity<Void> deleteFriendsById(@PathVariable Long amigo_id,
                                   @AuthenticationPrincipal JwtUserDetails userDetails){
-        Long usuario_id = userDetails.getId();
-        amizadeService.removerAmizadePorId(usuario_id, amigo_id);
+        amizadeService.removerAmizadePorId(userDetails.getId(), amigo_id);
         return ResponseEntity.noContent().build();
     }
 }

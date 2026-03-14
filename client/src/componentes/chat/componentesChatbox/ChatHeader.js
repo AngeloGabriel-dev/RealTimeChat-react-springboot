@@ -1,14 +1,14 @@
 import img from '../../../imagens/userImage.jpg';
 import styles from './ChatHeader.module.css';
 
-function ChatHeader({nome, roomPicture}){
+function ChatHeader({nome, qtd_mensagens}){
     return (
         <div className={styles.header}>
-            <img src={roomPicture ? roomPicture:img} alt='slar'/>
+            <img src={img} alt='slar'/>
             <div className={styles.chat_about}>
                 <span>{nome}</span>
                 <br/>
-                <span id="qtd_mensagens" className={styles.num_messages}></span>
+                <span className={styles.num_messages}>{qtd_mensagens}</span>
             </div>
             
         </div>

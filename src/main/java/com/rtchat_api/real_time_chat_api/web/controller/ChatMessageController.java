@@ -12,7 +12,6 @@ import java.util.concurrent.ExecutionException;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/chatMessages")
-@CrossOrigin(origins = {"http://localhost:3000"})
 @RestController
 public class ChatMessageController {
     @Autowired

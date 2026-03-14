@@ -23,7 +23,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/storage")
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000"})
 public class StorageController {
     @Autowired
     private final FirebaseStorageService storageService;
@@ -47,21 +46,16 @@ public class StorageController {
 
     @GetMapping("/downloadProfilePicture")
     public ResponseEntity<?> downloadProfilePicture(@AuthenticationPrincipal JwtUserDetails userDetails){
-        try{
-            String path = "users/user_"+userDetails.getUsername()+"/profile_pic";
-            //byte[] image = storageService.download(path);
-            String imageUrl = storageService.download(path);
-            return ResponseEntity.ok()
-                    .body(imageUrl);
-        }
-        catch (IOException e){
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao baixar image");
-        }
+        String path = "users/user_"+userDetails.getUsername()+"/profile_pic";
+        //byte[] image = storageService.download(path);
+        String imageUrl = storageService.download(path);
+        System.out.println(imageUrl);
+        return ResponseEntity.ok()
+                .body(imageUrl);
     }
 
     @GetMapping("/downloadFriendsProfilePicture")
-    public ResponseEntity<HashMap<Long, String>> downloadFriendsProfilePicture(@AuthenticationPrincipal JwtUserDetails userDetails) throws IOException {
+    public ResponseEntity<HashMap<Long, String>> downloadFriendsProfilePicture(@AuthenticationPrincipal JwtUserDetails userDetails){
         List<Usuario> amigos = amizadeService.buscarAmigosPorId(userDetails.getId());
         HashMap<Long, String> fotos_de_perfil = storageService.baixarAmigosFotoPerfil(amigos);
         return ResponseEntity.ok()

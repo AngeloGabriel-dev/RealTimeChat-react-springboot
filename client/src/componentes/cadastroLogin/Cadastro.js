@@ -6,10 +6,12 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function Cadastro(){
     const navigate = useNavigate()
+    const API_URL = process.env.REACT_APP_API_URL;
+
 
     function cadastrarUsuario(usuario){
         console.log(usuario)
-        fetch("http://localhost:8080/api/v1/usuarios",{
+        fetch(`${API_URL}/api/v1/usuarios`,{
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',

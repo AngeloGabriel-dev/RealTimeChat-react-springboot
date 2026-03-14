@@ -4,10 +4,11 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function Login(){
     const navigate = useNavigate()
+    const API_URL = process.env.REACT_APP_API_URL;
 
     function logarUsuario(usuario){
         console.log(usuario)
-        fetch("http://localhost:8080/api/v1/auth",{
+        fetch(`${API_URL}/api/v1/auth`,{
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',

@@ -1,5 +1,6 @@
 package com.rtchat_api.real_time_chat_api.web.dto.roomDto;
 
+import com.rtchat_api.real_time_chat_api.entity.Room;
 import com.rtchat_api.real_time_chat_api.web.dto.userDto.UsuarioResponseDto;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -16,4 +17,5 @@ public class RoomResponseDto {
     private String nome;
     private Long id;
     private List<UsuarioResponseDto> users;
+    private Room.RoomType type;
 }

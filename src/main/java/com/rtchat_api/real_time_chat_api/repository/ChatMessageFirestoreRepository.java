@@ -32,7 +32,6 @@ public class ChatMessageFirestoreRepository implements ChatMessageRepository{
         data.put("room_id", message.getRoom_id());
         data.put("content", message.getContent());
         data.put("sender_id", message.getSender_id());
-        data.put("receiver_id", message.getReceiver_id());
         data.put("timestamp", message.getTimestamp());
         try{
             ApiFuture<WriteResult> result = docRef.set(data);

@@ -6,8 +6,12 @@ import ClosePageButton from '../utils/ClosePageButton'
 import { useState } from 'react'
 import { json } from 'react-router-dom'
 
-function CreateRoomMenu({amigos, usersPictures, token}){
+function CreateRoomMenu({amigos, usersPictures}){
     const [room, setRoom] = useState({'users_id':[]})
+    const token = localStorage.getItem("token")
+
+    const API_URL = process.env.REACT_APP_API_URL;
+
 
     function handleChange(e){
         setRoom({...room, [e.target.name]:e.target.value})
@@ -29,7 +33,7 @@ function CreateRoomMenu({amigos, usersPictures, token}){
     function submit(e){
         e.preventDefault()
         //setRoom({...room, users_id:listaAmigos})
-        fetch("http://localhost:8080/api/v1/rooms", {
+        fetch(`${API_URL}/api/v1/rooms`, {
             method: "POST",
             headers:{
                 'Authorization': `Bearer ${token}`,

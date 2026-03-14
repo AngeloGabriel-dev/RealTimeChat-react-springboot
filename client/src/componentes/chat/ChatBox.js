@@ -5,27 +5,34 @@ import ChatHistory from './componentesChatbox/ChatHistory';
 import MessageSender from './componentesChatbox/MessageSender';
 import SockJS from "sockjs-client"
 import Stomp from "stompjs"
+import { useUserStore } from '../utils/UseUserStore.js'
+
 //import client from 'react-stomp';
 //import { connect } from './componentesChatbox/client'
 
+function ChatBox(){
+    const usuario = useUserStore(state => state.usuario);
+    const messagesByRoom = useUserStore(state => state.messagesByRoom);
+    const rooms = useUserStore(state => state.rooms);
+    const roomSelecionadaId = useUserStore(state => state.roomSelecionadaId);
+    const addMessageToRoom = useUserStore(state => state.addMessageToRoom);
+
+    const API_URL = process.env.REACT_APP_API_URL;
 
 
-function ChatBox({mensagens, usuario, room, roomsPicture}){
-    const [messages, setMessages] = useState(mensagens)
-    let qtd_mensagens = mensagens.length
+    const room = rooms.find(r => r.id === roomSelecionadaId);
+
+    let qtd_mensagens = messagesByRoom[roomSelecionadaId].length
     const [stompClient, setStompClient] = useState(null)
 
     useEffect(()=>{
-        document.getElementById("qtd_mensagens").innerHTML = qtd_mensagens + " mensagens"
-        const socket = new SockJS('http://localhost:8080/chat')
+        const socket = new SockJS(`${API_URL}/chat`)
         const client = Stomp.over(socket);
         client.connect({}, (frame) => {
-            client.subscribe(`/topic/room/${room.id}`, (message) => {
+            client.subscribe(`/topic/room/${roomSelecionadaId}`, (message) => {
                 const receivedMessage = JSON.parse(message.body)
                 console.log(receivedMessage)
-                setMessages((prevMessage)=>[...prevMessage, receivedMessage])
-                qtd_mensagens++
-                document.getElementById("qtd_mensagens").innerHTML = qtd_mensagens + " mensagens"
+                addMessageToRoom(roomSelecionadaId, receivedMessage)
 
             });
         });
@@ -33,12 +40,12 @@ function ChatBox({mensagens, usuario, room, roomsPicture}){
         // return () => {
         //     client.disconnect()
         // }
-    }, [])
+    }, [roomSelecionadaId])
 
     const sendMessage = (message) => {
         if(message.trim()){
             const chatMessage = {
-                room_id: room.id,
+                room_id: roomSelecionadaId,
                 sender_id: usuario.id,
                 content: message,
             }
@@ -52,16 +59,12 @@ function ChatBox({mensagens, usuario, room, roomsPicture}){
     return(
     <div className={styles.chat}>
         <ChatHeader 
-            nome={room.nome === null 
-                    ? room.users.filter((user)=>user.id !== usuario.id)[0].nome 
+            nome={room.type === "DIRECT" 
+                    ? room.users.find((user)=>user.id !== usuario.id).nome 
                     : 
                     room.nome} 
-            qtd_mensagens={mensagens.length}
-            roomPicture={room.nome === null ? 
-            roomsPicture[room.users.filter((user)=>user.id !== usuario.id)[0].id] 
-            : 
-            roomsPicture[room.id]}/>
-        <ChatHistory mensagens={messages} usuario={usuario} room={room}/>
+            qtd_mensagens={qtd_mensagens}/>
+        <ChatHistory />
         <MessageSender onSendMessage={sendMessage}/>
     </div>
     )
