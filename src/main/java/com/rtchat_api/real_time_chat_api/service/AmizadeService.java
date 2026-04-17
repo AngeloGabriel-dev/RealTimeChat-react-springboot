@@ -1,10 +1,13 @@
 package com.rtchat_api.real_time_chat_api.service;
 
-import com.google.firestore.v1.TransactionOptions;
 import com.rtchat_api.real_time_chat_api.entity.Amizade;
 import com.rtchat_api.real_time_chat_api.entity.Room;
 import com.rtchat_api.real_time_chat_api.entity.Usuario;
 import com.rtchat_api.real_time_chat_api.repository.AmizadeRepository;
+import com.rtchat_api.real_time_chat_api.web.dto.amizadeDto.AmizadeConfirmadaDto;
+import com.rtchat_api.real_time_chat_api.web.dto.amizadeDto.AmizadeResponseDto;
+import com.rtchat_api.real_time_chat_api.web.dto.mapper.RoomMapper;
+import com.rtchat_api.real_time_chat_api.web.dto.mapper.UsuarioMapper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.file.AccessDeniedException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,27 +26,33 @@ public class AmizadeService {
 
     @Transactional(readOnly = true)
     public List<Usuario> buscarAmigosPorId(Long id){
-        List<Amizade> amizades =  amizadeRepository.findAllByUsuario1IdOrUsuario2Id(id);
-        return amizades.stream().filter(amizade -> amizade.getStatus() == Amizade.Status.ACEITO)
+        List<Usuario> bosta = amizadeRepository.findFriendsByRequesterIdOrReceiverId(id);
+        return bosta;
+        /*return amizades.stream().filter(amizade -> amizade.getStatus() == Amizade.Status.ACEITO)
                 .map(amizade -> {
                     if(amizade.getUsuario1().getId().equals(id)){ return amizade.getUsuario2(); }
                     else{ return amizade.getUsuario1(); }
-                }).collect(Collectors.toList());
+                }).collect(Collectors.toList());*/
+    }
+
+    @Transactional(readOnly = true)
+    public List<AmizadeResponseDto> getPendingReceivedFriendshipsById(Long id){
+        List<AmizadeResponseDto> amizades = amizadeRepository.findPendingReceivedDtos(id);
+        return amizades;
     }
 
     @Transactional
     public void solicitarAmizade(Long user_id, String username){
         Amizade nova_amizade = new Amizade();
-        Usuario usuario1 = usuarioService.buscarPorId(user_id);
-        Usuario usuario2 = usuarioService.buscarPorUsername(username);
-        if(amizadeRepository.findByUsuario1IdAndUsuario2Id(usuario1.getId(), usuario2.getId()).isEmpty()){
-            nova_amizade.setUsuario1(usuario1);
-            nova_amizade.setUsuario2(usuario2);
+        Usuario requester = usuarioService.buscarPorId(user_id);
+        Usuario receiver = usuarioService.buscarPorUsername(username);
+        if(amizadeRepository.findByUsuario1IdAndUsuario2Id(requester.getId(), receiver.getId()).isEmpty()){
+            nova_amizade.setRequester(requester);
+            nova_amizade.setReceiver(receiver);
             amizadeRepository.save(nova_amizade);
         }else{
             System.out.println("Friendship already exists");
         }
-
     }
 
     @Transactional(readOnly = true)
@@ -61,16 +69,31 @@ public class AmizadeService {
     }
 
     @Transactional
-    public void acceptFriendshipById(Long amizade_id, Long user_id) throws AccessDeniedException {
+    public AmizadeConfirmadaDto acceptFriendshipById(Long amizade_id, Long user_id) throws AccessDeniedException {
         Amizade amizade = amizadeRepository.findById(amizade_id).orElseThrow(
                 () -> new EntityNotFoundException(String.format("Amizade com id = %d não encontrado.", amizade_id))
         );
-        if (!amizade.getUsuario2().getId().equals(user_id)){
+
+
+        if (amizade.getReceiver().getId().equals(user_id) &&
+                (amizade.getStatus().equals(Amizade.Status.PENDENTE) ||
+                 amizade.getStatus().equals(Amizade.Status.RECUSADO))){
+
+            amizade.setStatus(Amizade.Status.ACEITO);
+
+            Room room = roomService.criarRoomEntreAmigos(amizade);
+            amizadeRepository.save(amizade);
+
+            AmizadeConfirmadaDto dto = new AmizadeConfirmadaDto(amizade_id,
+                                UsuarioMapper.toDto(amizade.getRequester()),
+                                RoomMapper.toDto(room));
+
+            return dto;
+        }
+        else {
             throw new AccessDeniedException("Usuario não tem permissão para aceitar essa amizade.");
         }
-        amizade.setStatus(Amizade.Status.ACEITO);
-        roomService.criarRoomEntreAmigos(amizade);
-        amizadeRepository.save(amizade);
+
 
     }
 }

@@ -3,10 +3,8 @@ import ChatMessage from './ChatMessage';
 import MessageSender from './MessageSender';
 import { useUserStore } from '../../utils/UseUserStore.js'
 
-import { shallow } from "zustand/shallow";
 
-
-function ChatHistory(){
+function ChatHistory({qtd_messages}){
     const usuario = useUserStore(state => state.usuario);
     const messagesByRoom = useUserStore(state => state.messagesByRoom);
     const rooms = useUserStore(state => state.rooms);
@@ -34,7 +32,7 @@ function ChatHistory(){
 
     return(    
         <div className={styles.chat_history}>
-            {messagesByRoom[roomSelecionadaId].length > 0 && messagesByRoom[roomSelecionadaId].map((mensagem) => (
+            {qtd_messages > 0 && messagesByRoom[roomSelecionadaId].map((mensagem) => (
                 <ChatMessage 
                     conteudo={mensagem.content} 
                     data_mensagem={converteTimestamp(mensagem.timestamp.seconds, mensagem.timestamp)} 

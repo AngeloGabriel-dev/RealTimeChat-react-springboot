@@ -47,18 +47,18 @@ public class RoomService {
     }
 
     @Transactional
-    public void criarRoomEntreAmigos(Amizade amizade){
+    public Room criarRoomEntreAmigos(Amizade amizade){
         Room room = new Room();
         room.setType(Room.RoomType.DIRECT);
 
         Set<RoomUsuario> relations = new HashSet<>();
 
-        relations.add(new RoomUsuario(room, amizade.getUsuario1(), false));
-        relations.add(new RoomUsuario(room, amizade.getUsuario2(), false));
+        relations.add(new RoomUsuario(room, amizade.getRequester(), false));
+        relations.add(new RoomUsuario(room, amizade.getReceiver(), false));
 
         room.setRoom_users(relations);
 
-        roomRepository.save(room);
+        return roomRepository.save(room);
 
     }
 

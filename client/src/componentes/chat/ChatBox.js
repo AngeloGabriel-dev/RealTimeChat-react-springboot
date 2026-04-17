@@ -16,31 +16,34 @@ function ChatBox(){
     const rooms = useUserStore(state => state.rooms);
     const roomSelecionadaId = useUserStore(state => state.roomSelecionadaId);
     const addMessageToRoom = useUserStore(state => state.addMessageToRoom);
+    const stompClient = useUserStore(state => state.stompClient);
 
     const API_URL = process.env.REACT_APP_API_URL;
 
 
     const room = rooms.find(r => r.id === roomSelecionadaId);
 
+    
     let qtd_mensagens = messagesByRoom[roomSelecionadaId].length
-    const [stompClient, setStompClient] = useState(null)
+    
 
-    useEffect(()=>{
-        const socket = new SockJS(`${API_URL}/chat`)
-        const client = Stomp.over(socket);
-        client.connect({}, (frame) => {
-            client.subscribe(`/topic/room/${roomSelecionadaId}`, (message) => {
-                const receivedMessage = JSON.parse(message.body)
-                console.log(receivedMessage)
+    useEffect(() => {
+        if (!stompClient || !roomSelecionadaId) return;
+
+        const subscription = stompClient.subscribe(
+            `/topic/room/${roomSelecionadaId}`,
+            (message) => {
+                const receivedMessage = JSON.parse(message.body);
+                console.log(messagesByRoom)
                 addMessageToRoom(roomSelecionadaId, receivedMessage)
+            }
+        );
 
-            });
-        });
-        setStompClient(client)
-        // return () => {
-        //     client.disconnect()
-        // }
-    }, [roomSelecionadaId])
+        return () => {
+            subscription.unsubscribe();
+        };
+
+    }, [stompClient, roomSelecionadaId]);
 
     const sendMessage = (message) => {
         if(message.trim()){
@@ -64,7 +67,7 @@ function ChatBox(){
                     : 
                     room.nome} 
             qtd_mensagens={qtd_mensagens}/>
-        <ChatHistory />
+        <ChatHistory qtd_messages={qtd_mensagens}/>
         <MessageSender onSendMessage={sendMessage}/>
     </div>
     )

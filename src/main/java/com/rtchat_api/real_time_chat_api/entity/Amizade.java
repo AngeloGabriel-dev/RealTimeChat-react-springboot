@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 
@@ -19,19 +20,21 @@ public class Amizade {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id1", nullable = false)
-    private Usuario usuario1;
+    @JoinColumn(name = "requester", nullable = false)
+    private Usuario requester;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id2", nullable = false)
-    private Usuario usuario2;
+    @JoinColumn(name = "receiver", nullable = false)
+    private Usuario receiver;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 9)
     private Status status = Status.PENDENTE;
 
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
     public enum Status{
-        PENDENTE, ACEITO
+        PENDENTE, ACEITO, RECUSADO
     }
 
     @Override

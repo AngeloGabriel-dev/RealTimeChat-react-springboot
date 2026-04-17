@@ -6,7 +6,6 @@ import Perfil from "../usuario/Perfil";
 import CreateRoomMenu from "../room/CreateRoomMenu";
 import Modal from 'react-modal';
 import { useUserStore } from '../utils/UseUserStore.js'
-import { shallow } from "zustand/shallow";
 
 
 

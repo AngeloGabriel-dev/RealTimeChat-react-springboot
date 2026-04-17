@@ -24,6 +24,7 @@ public class ChatMessageService {
     private final ApplicationEventPublisher eventPublisher;
 
     public void sendMessage(ChatMessage chatMessage) throws ExecutionException, InterruptedException {
+        chatMessage.setId(UUID.randomUUID().toString());
         chatMessage.setState(ChatMessage.States.RECEIVED);
         chatMessage.setTimestamp(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")).toEpochSecond(ZoneOffset.of("-03:00")));
 

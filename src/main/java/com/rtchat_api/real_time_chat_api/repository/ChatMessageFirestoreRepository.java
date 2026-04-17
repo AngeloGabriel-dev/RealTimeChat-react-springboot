@@ -29,6 +29,7 @@ public class ChatMessageFirestoreRepository implements ChatMessageRepository{
         DocumentReference docRef = collection.document();
 
         Map<String, Object> data = new HashMap<>();
+        data.put("id", message.getId());
         data.put("room_id", message.getRoom_id());
         data.put("content", message.getContent());
         data.put("sender_id", message.getSender_id());

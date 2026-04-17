@@ -2,12 +2,9 @@ import styles from './ChatCard.module.css'
 import img from '../../../imagens/userImage.jpg'
 import { useUserStore } from '../../utils/UseUserStore.js'
 
-import { shallow } from "zustand/shallow";
 
 function ChatCard({room, selecionado, handleOnClick}){
     const usuario = useUserStore(state => state.usuario);
-
-    console.log(room)
 
     
     const retornaId = (e) => {

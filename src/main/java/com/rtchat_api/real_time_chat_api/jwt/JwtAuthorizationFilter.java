@@ -20,12 +20,10 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private JwtUserDetailsService detailsService;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
-
-
-
-
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws
+                                    ServletException, IOException {
         final String token = request.getHeader(JwtUtils.JWT_AUTHORIZATION);
 
         if (token == null || !token.startsWith(JwtUtils.JWT_BEARER)){
