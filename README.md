@@ -2,36 +2,11 @@ A Real-Time Chat made using React for the client side and Spring Boot for the se
 <br>
 My goal with this project was to learn how to build real-time applications, and I really enjoyed doing that.
 
-# Table Schemes
-### usuarios (users)
-id	bigint AI PK <br>
-criado_por varchar(255) (created by)<br>
-data_criacao	datetime(6) (creation date)<br>
-data_modificacao	datetime(6) (modification date)<br>
-modificado_por	varchar(255) (modificated by)<br>
-nome	varchar(100) (name)<br>
-password	varchar(200) <br>
-role	enum('ROLE_ADMIN','ROLE_CLIENTE')<br>
-username	varchar(100)<br>
+# Domain Diagram
+<img src="https://github.com/AngeloGabriel-dev/RealTimeChat-react-springboot/blob/main/DomainDiagram.drawio.png"/>
 
-### amizades (friendships)
-id	bigint AI PK <br>
-status	enum('ACEITO','PENDENTE') <br>
-amigo_id	bigint FK <br>
-usuario_id	bigint FK <br>
-
-### rooms
-id	bigint AI PK <br>
-nome	varchar(30) <br>
-users usuarios[] <br>
-
-# Collection Schemes
-### messages
- content text; <br>
- receiver_id number; <br>
- sender_id number; <br>
- room_id number; <br>
- timestamp date; <br>
+# ER Diagram
+<img src="https://github.com/AngeloGabriel-dev/RealTimeChat-react-springboot/blob/main/ERDiagram.drawio.png"/>
 
  # How to implement
 To implement this system on your machine, you will need a MySQL database where you will create all the tables specified above. You will also need Firestore and Firebase Storage to store the messages and profile pictures.
