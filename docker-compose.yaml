@@ -1,0 +1,8 @@
+services:
+  back-end:
+    image:
+    ports:
+      - "80:80"
+    volumes:
+
+    depends_on:

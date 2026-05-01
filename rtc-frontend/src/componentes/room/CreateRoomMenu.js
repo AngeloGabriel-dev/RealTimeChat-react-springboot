@@ -5,10 +5,12 @@ import SubmitButtonRoomForm from './SubmitButtonRoomForm'
 import ClosePageButton from '../utils/ClosePageButton'
 import { useState } from 'react'
 import { json } from 'react-router-dom'
+import { useUserStore } from '../utils/UseUserStore'
 
-function CreateRoomMenu({amigos, usersPictures}){
+function CreateRoomMenu(){
     const [room, setRoom] = useState({'users_id':[]})
     const token = localStorage.getItem("token")
+    const amigos = useUserStore(state => state.amigos)
 
     const API_URL = process.env.REACT_APP_API_URL;
 
@@ -61,8 +63,7 @@ function CreateRoomMenu({amigos, usersPictures}){
         {amigos.map((amigo)=>
             <AmigoContainer 
                 selecionado={room['users_id'].includes(amigo.id)}
-                amigo={amigo} 
-                userPicture={usersPictures[amigo.id]}        
+                amigo={amigo}        
                 handleOnClick={adicionarAmigo}
             />
         )}
