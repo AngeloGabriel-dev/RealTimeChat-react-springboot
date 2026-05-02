@@ -3,10 +3,10 @@ A Real-Time Chat made using React for the client side and Spring Boot for the se
 My goal with this project was to learn how to build real-time applications, and I really enjoyed doing that.
 
 # Domain Diagram
-<img src="https://github.com/AngeloGabriel-dev/RealTimeChat-react-springboot/blob/main/DomainDiagram.drawio.png"/>
+<img src="https://github.com/AngeloGabriel-dev/RealTimeChat-react-springboot/blob/main/images/DomainDiagram.drawio.png"/>
 
 # ER Diagram
-<img src="https://github.com/AngeloGabriel-dev/RealTimeChat-react-springboot/blob/main/ERDiagram.drawio.png"/>
+<img src="https://github.com/AngeloGabriel-dev/RealTimeChat-react-springboot/blob/main/images/ERDiagram.drawio.png"/>
 
 # Concepts Learned in This Project
 
@@ -29,6 +29,6 @@ To implement this system on your machine, you will need to have MySQL installed 
 # App Screens
 The application is not focused on UI/UX. The front end was built as a minimal interface to support the features I wanted to implement. The main goal of this project was to learn software engineering concepts rather than design or user experience. In the future, I may improve the UI/UX to make the project more complete and closer to a production-ready application.
 
-<img src="https://github.com/AngeloGabriel-dev/RealTimeChat-react-springboot/blob/main/chat.PNG"/>
-<img src="https://github.com/AngeloGabriel-dev/RealTimeChat-react-springboot/blob/main/chat2.PNG"/>
-<img src="https://github.com/AngeloGabriel-dev/RealTimeChat-react-springboot/blob/main/chat3.PNG"/>
+<img src="https://github.com/AngeloGabriel-dev/RealTimeChat-react-springboot/blob/main/images/chat.PNG"/>
+<img src="https://github.com/AngeloGabriel-dev/RealTimeChat-react-springboot/blob/main/images/chat2.PNG"/>
+<img src="https://github.com/AngeloGabriel-dev/RealTimeChat-react-springboot/blob/main/images/chat3.PNG"/>
