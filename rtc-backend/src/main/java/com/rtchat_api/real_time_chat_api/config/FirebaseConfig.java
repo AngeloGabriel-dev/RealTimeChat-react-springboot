@@ -11,13 +11,14 @@ import org.springframework.context.annotation.Configuration;
 import javax.annotation.PostConstruct;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 @Configuration
 public class FirebaseConfig {
     @Bean
     public FirebaseApp initialize() throws IOException{
-        FileInputStream serviceAccount = new FileInputStream(
-        "src/main/resources/firebase/realtimechat-6bf77-firebase-adminsdk-mg5bw-8c7c9871bf.json");
+        InputStream serviceAccount =
+    getClass().getClassLoader().getResourceAsStream("firebase/realtimechat-6bf77-firebase-adminsdk-mg5bw-8c7c9871bf.json");
         FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                 .setStorageBucket("realtimechat-6bf77.appspot.com")

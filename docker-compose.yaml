@@ -1,8 +1,51 @@
 services:
-  back-end:
-    image:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_rtc
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
     ports:
-      - "80:80"
+      - "${MYSQL_PORT}:3306"
     volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - rtc_network
 
+  backend:
+    build:
+      context: ./rtc-backend
+      dockerfile: Dockerfile
+    container_name: rtc_backend
+    restart: always
     depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - "8080:8080"
+    networks:
+      - rtc_network
+
+  frontend:
+    build:
+      context: ./rtc-frontend
+      dockerfile: Dockerfile
+    container_name: rtc_frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"
+    networks:
+      - rtc_network
+
+volumes:
+  mysql_data:
+
+networks:
+  rtc_network:
